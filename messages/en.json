@@ -1,0 +1,62 @@
+{
+  "cookies": {
+    "mainTitle": "🍪 Cookie Preferences",
+    "mainDescription": "We use cookies to enhance your browsing experience, provide personalized content, and analyze our traffic. You can choose which types of cookies you want to accept.",
+    "mainChoice": "You can:",
+    "mainChoiceAccept": "Accept all cookies by clicking \"OK for me\".",
+    "mainChoiceReject": "Reject all by clicking \"No thanks\".",
+    "mainChoiceCustomize": "Or customize your choice by clicking \"I choose\".",
+    "validityPeriod": "Your choice is valid for 6 months. You can change your mind at any time by reopening this module.",
+    "cacheInstructions": "If you don't see changes after saving your choices, please clear your browser cache:",
+    "cacheWindows": "Windows: Ctrl + Shift + R or Ctrl + F5",
+    "cacheMac": "Mac: Cmd + Shift + R or Cmd + Option + R",
+    "cacheLinux": "Linux: Ctrl + Shift + R or Ctrl + F5",
+    "cacheAlternative": "Or via menu: F12 > Application/Storage > Clear storage > Clear site data",
+    "moreInfo": "For more information, see our",
+    "privacyPolicy": "Privacy Policy",
+    "whyWeUseCookies": "Here's why we use cookies:",
+    "okForMe": "OK for me",
+    "noThanks": "No thanks",
+    "iChoose": "I choose",
+        "saveMyChoices": "Save my choices",
+        "rememberToSave": "Don't forget to save your choices after unchecking or checking one or more boxes",
+    "checkAll": "Check all",
+    "uncheckAll": "Uncheck all",
+    "cookiesInCategory": "Cookies in this category:",
+    "next": "Next",
+    "previous": "Previous",
+    "back": "Back",
+    "close": "Close",
+    "openCookieSettings": "Open cookie settings",
+    "manageCookies": "Manage cookies",
+    "essential": {
+      "title": "Essential",
+      "subtitle": "These are vital for our website!",
+      "description": "Required for the website to function properly. Cannot be disabled.",
+      "detailedDescription": "These cookies are necessary for the website to function properly. They enable basic features like page navigation, security, and access to essential areas. The website cannot function properly without these cookies.",
+      "cookie1": "Used to maintain your session and preferences during navigation. Essential for security and site functionality."
+    },
+    "functional": {
+      "title": "Functional",
+      "subtitle": "Enhanced features for a better experience!",
+      "description": "Enable enhanced features like social sharing.",
+      "detailedDescription": "These cookies enable enhanced website features and personalization. They may be set by us or by third-party services we've added to our pages. If you don't allow these cookies, some features may not work correctly.",
+      "cookie1": "Enables social media sharing buttons (Facebook, Twitter, LinkedIn, WhatsApp, Email). Allows easy sharing of our articles. Provider: next-share."
+    },
+    "analytics": {
+      "title": "Performance and Analytics",
+      "subtitle": "Counting our visits is important!",
+      "description": "Help us understand how visitors interact with our website (Vercel Analytics).",
+      "detailedDescription": "These cookies help us count visits and understand traffic sources so we can measure and improve our site's performance. All information collected is aggregated and therefore anonymous. If you don't allow these cookies, we won't know when you visited our site.",
+      "cookie1": "Collects anonymous data about page visits, traffic sources, and user interactions. Helps improve website performance. Provider: Vercel Analytics."
+    },
+    "thirdParty": {
+      "title": "Third-Party Content",
+      "subtitle": "External services for videos and icons!",
+      "description": "External content like YouTube/Vimeo and FontAwesome.",
+      "detailedDescription": "These cookies are set by external services that appear on our pages, such as embedded YouTube/Vimeo videos and FontAwesome icons. If you don't allow these cookies, some or all of these services may not work properly.",
+      "cookie1": "Enables display of embedded YouTube and Vimeo videos in articles. Allows viewing enriched multimedia content. Providers: YouTube, Vimeo.",
+      "cookie2": "Enables display of FontAwesome icons used in the interface. Improves visual experience with professional icons. Provider: FontAwesome."
+    }
+  }
+}

@@ -1,0 +1,455 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .hamburger-toggle {
+        @apply [&>div]:h-0 [&>div]:bg-white [&>div]:before:translate-y-0 [&>div]:before:rotate-45 [&>div]:after:translate-y-0 [&>div]:after:-rotate-45;
+      }
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2a2a2a;
+    --secondary-color: teal;
+    --white-color: white;
+    --green-color: #439c47;
+    --transition-animation: all .5s;
+    --header-size: 330px;
+}
+
+body {
+    font-family: var(--josefin-sans), var(--font-inter), sans-serif;
+    font-size: 16px;
+    color: var(--primary-color);
+    margin: 10px;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition-animation);
+
+    &:hover,
+    &:visited,
+    &:focus {
+        color: var(--primary-color);
+    }
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Portable text specific styles */
+.portable-text-enriched a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.portable-text-enriched a:hover, .portable-text-enriched a:focus, .portable-text-enriched a:active, .portable-text-enriched a:visited {
+    text-decoration: underline;
+}
+
+.portable-text-enriched .portable-text-content.drop-cap > p:first-child::first-letter {
+    -webkit-initial-letter: 2;
+            initial-letter: 2;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-right: .5em;
+}
+
+.portable-text-enriched .portable-text-content.drop-cap > div:first-child > p:first-child::first-letter {
+    -webkit-initial-letter: 2;
+            initial-letter: 2;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-right: .5em;
+}
+
+
+
+/***************************************************
+    Create A Dark/Light Mode Switch with CSS Variables
+    Source: https://dev.to/ananyaneogi/create-a-dark-light-mode-switch-with-css-variables-34l8
+***************************************************/
+[data-theme="dark"] {
+    --primary-color: white;
+    --secondary-color: var(--green-color);
+    --white-color: #2a2a2a;
+
+    .button a:hover,
+    .button a:focus,
+    .button a:active {
+        color: white;
+    }
+}
+
+/* Toggle switch styling */
+.dark_mode_container {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    .dark_mode_switch {
+        display: inline-block;
+        height: 34px;
+        width: 60px;
+        max-width: 60px;
+        
+        input {
+            display: none;
+        }
+
+        input:checked+.slider {
+            background-color: var(--green-color);
+            
+            &:before {
+                transform: translateX(25px);
+            }
+        }
+    }
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: var(--transition-animation);
+
+    width: 60px;
+    
+    &:before {
+        background-color: var(--white-color);
+        bottom: 5px;
+        content: "";
+        height: 25px;
+        left: 5px;
+        position: absolute;
+        transition: var(--transition-animation);
+        width: 25px;
+    }
+
+    &.round {
+        border-radius: 34px;
+        
+        &:before {
+            border-radius: 50%;
+        }
+    }
+}
+
+
+
+
+
+/**************************************
+    Header of Paper
+**************************************/
+
+header {
+    text-align: center;
+    position: relative;
+
+    h1.news_paper_title {
+        margin: 0;
+     
+
+        small {
+            font-family: var(--josefin-sans), var(--font-inter), sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        a {
+            font-family: var(--noticia), var(--josefin-sans);
+            font-weight: 600;
+            display: inline-block;
+            line-height: 60px;
+            margin: 15px 0;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: var(--transition-animation);
+        
+            &:hover {
+                color: var(--secondary-color);
+            }
+        }
+    }
+    
+    .news_paper_location {
+        font-weight: 600;
+        border-bottom: 1px solid var(--primary-color);
+        border-top: 1px solid var(--primary-color);
+        padding: 10px 0 10px 0;
+        margin: 20px 0;
+    }
+}
+
+@media only all and (max-width: 600px) {
+    header {
+        h1.news_paper_title a {
+            line-height: 40px;
+            margin: 5px 0;
+        }
+    }
+}
+
+
+
+
+/**************************************
+    Content Area of Newspaper
+**************************************/
+.headline {
+    text-align: center;
+    line-height: normal;
+    font-family: var(--crimson-pro), sans-serif;
+    display: block;
+    margin: 0 auto;
+    
+    h2.title {
+        font-weight: 400;
+        font-style: italic;
+        font-size: 22px;
+        
+        &:hover {
+            color: var(--secondary-color);
+        }
+    }
+    
+    h3.writer {
+        font-weight: 700;
+        font-size: 12px;
+
+        &:hover {
+            color: var(--secondary-color);
+        }
+        
+        &:before {
+            border-top: 1px solid var(--primary-color);
+            content: '';
+            width: 100px;
+            height: 7px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        &:after {
+            border-bottom: 1px solid var(--primary-color);
+            content: '';
+            width: 100px;
+            height: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}
+
+.button a {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 16px;
+    padding: 10px 15px;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background: var(--green-color);
+        border: 1px solid var(--green-color);
+        color: var(--white-color);
+    }
+}
+
+
+
+
+
+/**************************************
+    Images & iframes
+**************************************/
+figure {
+    cursor: pointer;
+    margin: 0 0 20px;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transition: var(--transition-animation);
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        font-style: italic;
+        font-size: 12px;
+        text-align: left;
+        transition: var(--transition-animation);
+
+        &:hover {
+            padding-left: 10px;
+        }
+    }
+    
+    &:hover {
+        -webkit-filter: grayscale(0);
+        filter: grayscale(0);
+    }
+}
+
+
+
+
+
+/***************************************************
+    Responsive Framework
+    https://codepen.io/HikwaMehluli/full/qeNOVv
+***************************************************/
+.the-grid-section {
+	max-width: 1500px;
+	margin: 0 auto;
+    width: 100%;
+    
+    .the-grid {
+        margin-bottom: 40px;
+        transition: all 0.5s;
+    
+        .the-grid-content {
+            /* padding: 10px; */
+            
+            p {
+            /*https://medium.com/@elad/trimming-multi-lines-in-css-5ae59d5e6d84 */
+                display: -webkit-box;   
+                -webkit-line-clamp: 5;   
+                -webkit-box-orient: vertical;     
+                overflow: hidden; 
+            }
+        }
+    }
+}
+
+/* the flexbox magic */
+@media screen and (min-width: 768px) {
+    .the-grid-section {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+        -webkit-justify-content: space-between;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+    }
+
+    .the-grid {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex: 0 1 calc(50% - .5em);
+            -ms-flex: 0 1 calc(50% - .5em);
+                flex: 0 1 calc(50% - .5em);
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .the-grid {
+        -webkit-flex: 0 1 calc(33% - 1em);
+            -ms-flex: 0 1 calc(33% - 1em);
+                flex: 0 1 calc(33% - 1em);
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .the-grid {
+        -webkit-flex: 0 1 calc(25% - 1em);
+            -ms-flex: 0 1 calc(25% - 1em);
+                flex: 0 1 calc(25% - 1em);
+    }
+}
+
+/** == Audio element == **/
+
+/*
+*style audio tag
+*/
+
+/* Set the background color of the control panel to #56AEFF */
+audio::-webkit-media-controls-panel {
+    background-color: var(--primary-color);
+}
+
+/* Style the mute button with a background color of #B1D4E0 and make it circular */
+audio::-webkit-media-controls-mute-button {
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+/* Set the background color of the control panel to #56AEFF */
+audio::-webkit-media-controls-panel {
+    background-color: #fff;
+}
+
+/* Style the play button with a background color of #B1D4E0 and make it circular */
+audio::-webkit-media-controls-play-button {
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+/* Add a hover effect to the play button by changing the background color to a semi-transparent version of #B1D4E0 */
+audio::-webkit-media-controls-play-button:hover {
+    opacity: 0.8;
+}
+
+/* Set the text color of the current time display to white (#fff) */
+audio::-webkit-media-controls-current-time-display {
+    color: #fff;
+}
+
+
+/* Set the text color of the time remaining display to white (#fff) */
+audio::-webkit-media-controls-time-remaining-display {
+    color: #fff;
+}
+
+/* Set the background color of the control panel to #56AEFF */
+audio::-webkit-media-controls-panel {
+    background-color: #fff;
+}
+
+/* Style the timeline with a background color of #B1D4E0, add a border-radius, and adjust margins */
+audio::-webkit-media-controls-timeline {
+    background-color: var(--secondary-color);
+    border-radius: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Set the background color of the control panel to #56AEFF */
+audio::-webkit-media-controls-panel {
+    background-color: var(--secondary-color);
+}
+
+/* Style the volume slider with a background color of #B1D4E0, add a border-radius, and adjust padding */
+audio::-webkit-media-controls-volume-slider {
+    background-color: #fff;
+    border-radius: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+}

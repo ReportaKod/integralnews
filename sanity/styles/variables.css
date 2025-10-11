@@ -1,0 +1,120 @@
+/* Variables CSS personnalisées pour Sanity Studio */
+/* Basé sur la documentation officielle de Sanity */
+
+:root {
+  /* ===== COULEURS DE MARQUE ===== */
+  
+  /* Couleur primaire (votre vert) */
+  --brand-primary: #439c47;
+  --brand-primary--inverted: #ffffff;
+  
+  /* Couleur secondaire (gris pour les accents) */
+  --brand-secondary: #6b7280;
+  --brand-secondary--inverted: #ffffff;
+  
+  /* ===== TYPOGRAPHIE ===== */
+  
+  /* Police de base */
+  --font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-serif: 'Georgia', 'Times New Roman', serif;
+  --font-family-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  
+  /* Tailles de police */
+  --font-size-base: 14px;
+  --font-size-small: 12px;
+  --font-size-large: 16px;
+  
+  /* Couleur du texte */
+  --text-color: #1a1a1a;
+  --text-color--inverted: #ffffff;
+  
+  /* ===== NAVIGATION PRINCIPALE ===== */
+  
+  /* Couleur de fond de la navigation */
+  --main-navigation-color: #f9fafb;
+  --main-navigation-color--inverted: #1a1a1a;
+  
+  /* ===== COULEURS D'ÉTAT ===== */
+  
+  /* Succès */
+  --state-success-color: #10b981;
+  --state-success-color--inverted: #ffffff;
+  
+  /* Erreur */
+  --state-danger-color: #ef4444;
+  --state-danger-color--inverted: #ffffff;
+  
+  /* Avertissement */
+  --state-warning-color: #f59e0b;
+  --state-warning-color--inverted: #ffffff;
+  
+  /* Info */
+  --state-info-color: #3b82f6;
+  --state-info-color--inverted: #ffffff;
+  
+  /* ===== COULEURS DE FOCUS ===== */
+  
+  /* Couleur de focus (votre vert) */
+  --focus-color: #439c47;
+  --focus-color--inverted: #ffffff;
+  
+  /* ===== COULEURS DE FOND ===== */
+  
+  /* Fond principal */
+  --component-bg: #ffffff;
+  --component-bg--inverted: #1a1a1a;
+  
+  /* Fond secondaire */
+  --component-bg-muted: #f9fafb;
+  --component-bg-muted--inverted: #374151;
+  
+  /* ===== BORDURES ===== */
+  
+  /* Couleur des bordures */
+  --component-border-color: #e5e7eb;
+  --component-border-color--inverted: #4b5563;
+  
+  /* ===== OMBRES ===== */
+  
+  /* Ombres des composants */
+  --component-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --component-shadow--large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* ===== BOUTONS ===== */
+  
+  /* Boutons primaires */
+  --button-primary-color: #439c47;
+  --button-primary-color--inverted: #ffffff;
+  
+  /* Boutons secondaires */
+  --button-secondary-color: #6b7280;
+  --button-secondary-color--inverted: #ffffff;
+  
+  /* ===== LIENS ===== */
+  
+  /* Couleur des liens */
+  --link-color: #439c47;
+  --link-color--inverted: #ffffff;
+  
+  /* ===== SÉLECTEURS ===== */
+  
+  /* Couleur des éléments sélectionnés */
+  --selectable-item-color: #439c47;
+  --selectable-item-color--inverted: #ffffff;
+  
+  /* ===== MODE SOMBRE ===== */
+  
+  /* Variables pour le mode sombre */
+  [data-theme="dark"] {
+    --text-color: #f9fafb;
+    --text-color--inverted: #1a1a1a;
+    --component-bg: #1f2937;
+    --component-bg--inverted: #ffffff;
+    --component-bg-muted: #374151;
+    --component-bg-muted--inverted: #f9fafb;
+    --component-border-color: #4b5563;
+    --component-border-color--inverted: #e5e7eb;
+    --main-navigation-color: #374151;
+    --main-navigation-color--inverted: #f9fafb;
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "cookies": {
+    "mainTitle": "🍪 Préférences des Cookies",
+    "mainDescription": "Nous utilisons des cookies pour améliorer votre expérience de navigation, fournir du contenu personnalisé et analyser notre trafic. Vous pouvez choisir les types de cookies que vous souhaitez accepter.",
+    "mainChoice": "Vous pouvez :",
+    "mainChoiceAccept": "Accepter tous les cookies en cliquant sur « OK pour moi ».",
+    "mainChoiceReject": "Tous les refuser en cliquant sur « Non merci ».",
+    "mainChoiceCustomize": "Ou paramétrer votre choix en cliquant sur « Je choisis ».",
+    "validityPeriod": "Votre choix est valable pour une durée de 6 mois. Vous pouvez changer d'avis à tout moment en rouvrant ce module.",
+        "cacheInstructions": "Si vous ne voyez pas de changement après avoir enregistré vos choix, veuillez vider le cache de votre navigateur :",
+    "cacheWindows": "Windows : Ctrl + Shift + R ou Ctrl + F5",
+    "cacheMac": "Mac : Cmd + Shift + R ou Cmd + Option + R",
+    "cacheLinux": "Linux : Ctrl + Shift + R ou Ctrl + F5",
+    "cacheAlternative": "Ou via le menu : F12 > Application/Storage > Clear storage > Clear site data",
+    "moreInfo": "Pour plus d'informations, consultez notre",
+    "privacyPolicy": "Politique de confidentialité",
+    "whyWeUseCookies": "Voici pourquoi nous utilisons des cookies :",
+    "okForMe": "OK pour moi",
+    "noThanks": "Non merci",
+    "iChoose": "Je choisis",
+        "saveMyChoices": "Enregistrer mes choix",
+        "rememberToSave": "N'oubliez pas d'enregistrer vos choix après avoir décoché ou coché une ou plusieurs cases",
+    "checkAll": "Tout cocher",
+    "uncheckAll": "Tout décocher",
+    "cookiesInCategory": "Cookies dans cette catégorie :",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "back": "Retour",
+    "close": "Fermer",
+    "openCookieSettings": "Ouvrir les paramètres des cookies",
+    "manageCookies": "Gérer les cookies",
+    "essential": {
+      "title": "Nécessaires",
+      "subtitle": "Ils sont vitaux pour notre site web !",
+      "description": "Nécessaires au bon fonctionnement du site. Ne peuvent pas être désactivés.",
+      "detailedDescription": "Ces cookies sont nécessaires au bon fonctionnement du site web. Ils permettent des fonctionnalités de base comme la navigation entre les pages, la sécurité et l'accès aux zones essentielles. Le site web ne peut pas fonctionner correctement sans ces cookies.",
+      "cookie1": "Utilisé pour maintenir votre session et vos préférences lors de la navigation. Essentiel pour la sécurité et le fonctionnement du site."
+    },
+    "functional": {
+      "title": "Fonctionnels",
+      "subtitle": "Fonctionnalités améliorées pour une meilleure expérience !",
+      "description": "Permettent des fonctionnalités améliorées comme le partage social.",
+      "detailedDescription": "Ces cookies permettent des fonctionnalités améliorées du site web et la personnalisation. Ils peuvent être définis par nous ou par des services tiers que nous avons ajoutés à nos pages. Si vous n'autorisez pas ces cookies, certaines fonctionnalités peuvent ne pas fonctionner correctement.",
+      "cookie1": "Active les boutons de partage sur les réseaux sociaux (Facebook, Twitter, LinkedIn, WhatsApp, Email). Permet de partager facilement nos articles. Fournisseur : next-share."
+    },
+    "analytics": {
+      "title": "Performances et Analytics",
+      "subtitle": "Compter nos visites, c'est important !",
+      "description": "Nous aident à comprendre comment les visiteurs utilisent notre site (Vercel Analytics).",
+      "detailedDescription": "Ces cookies nous aident à compter les visites et à comprendre les sources de trafic afin que nous puissions mesurer et améliorer les performances de notre site. Toutes les informations collectées sont agrégées et donc anonymes. Si vous n'autorisez pas ces cookies, nous ne saurons pas quand vous avez visité notre site.",
+      "cookie1": "Collecte des données anonymes sur les visites de pages, les sources de trafic et les interactions des utilisateurs. Aide à améliorer les performances du site. Fournisseur : Vercel Analytics."
+    },
+    "thirdParty": {
+      "title": "Contenus Tiers",
+      "subtitle": "Services externes pour des vidéos et icônes !",
+      "description": "Contenus externes comme YouTube/Vimeo et FontAwesome.",
+      "detailedDescription": "Ces cookies sont définis par des services externes qui apparaissent sur nos pages, tels que les vidéos YouTube/Vimeo intégrées et les icônes FontAwesome. Si vous n'autorisez pas ces cookies, certains ou tous ces services peuvent ne pas fonctionner correctement.",
+      "cookie1": "Active l'affichage des vidéos YouTube et Vimeo intégrées dans les articles. Permet de visionner du contenu multimédia enrichi. Fournisseurs : YouTube, Vimeo.",
+      "cookie2": "Active l'affichage des icônes FontAwesome utilisées dans l'interface. Améliore l'expérience visuelle avec des icônes professionnelles. Fournisseur : FontAwesome."
+    }
+  }
+}
