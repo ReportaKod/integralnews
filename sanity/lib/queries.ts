@@ -19,6 +19,7 @@ const postFields = /* groq */ `
   "slug": slug.current,
   caption,
   "audioUrl": audio.asset->url,
+  audioTitle,
   excerpt,
   logo,
   coverImage,

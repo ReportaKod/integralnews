@@ -155,6 +155,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'audioTitle',
+      title: 'Titre du lecteur audio',
+      description: "Optionnel. Titre affiché au-dessus du lecteur audio (ex: '🔊 Ecouter l'article')",
+      type: 'string',
+    }),
+    defineField({
       name: "logo",
       title: "Logo / Image carrée",
       description: "Optionnel. Pour afficher un logo ou une image carrée centrée avant l'article (au lieu de la cover image 16:9)",

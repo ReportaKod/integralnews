@@ -157,7 +157,7 @@ export default async function PostPage({ params }: Props) {
                   variant="icon"
                 />
              
-                {post.audioUrl && <AudioPlayer audioUrl={post.audioUrl} />} 
+                {post.audioUrl && <AudioPlayer audioUrl={post.audioUrl} title={post.audioTitle} />} 
                 </div>
                 ) : null}
             </div>

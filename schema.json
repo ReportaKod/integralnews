@@ -821,6 +821,13 @@
         },
         "optional": true
       },
+      "audioTitle": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "logo": {
         "type": "objectAttribute",
         "value": {
