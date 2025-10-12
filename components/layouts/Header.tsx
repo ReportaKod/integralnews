@@ -11,7 +11,13 @@ interface Props {
   locale: string,
   dateTime: string,
   title: string,
-  description: string
+  description: string,
+  aboutPage?: {
+    slug: string | null,
+    theme: {
+      slug: string | null
+    } | null
+  } | null
 }
 
 interface NavLinks {
@@ -27,7 +33,7 @@ interface DropdownItem {
   label: string,
 }
 
-export const Header: FC<Props> = ({ posts, title, description, locale, dateTime }) => {
+export const Header: FC<Props> = ({ posts, title, description, locale, dateTime, aboutPage }) => {
   const t = useTranslations('')
   const paths = usePathname()
   const [scrolled, setScrolled] = useState<boolean>(true);
@@ -175,7 +181,14 @@ export const Header: FC<Props> = ({ posts, title, description, locale, dateTime 
             <Link href="/" className={"text-white hover:!text-green-400"} style={{ color: "#fff" }} aria-label="Retour à l'accueil">
                 <House />
             </Link>
-            <Link className="hidden md:flex gap-2 items-center !text-white hover:!text-green-400 " href={`/${locale}/posts/qui-sommes-nous/djif-communication`}>Qui sommes-nous ?</Link>
+            {aboutPage?.slug && aboutPage?.theme?.slug && (
+              <Link 
+                className="hidden md:flex gap-2 items-center !text-white hover:!text-green-400" 
+                href={`/${locale}/posts/${aboutPage.theme.slug}/${aboutPage.slug}`}
+              >
+                Qui sommes-nous ?
+              </Link>
+            )}
             </div>
 
           <div className={`grow flex justify-end`}>

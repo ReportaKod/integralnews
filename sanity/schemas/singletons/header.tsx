@@ -18,6 +18,13 @@ export default defineType({
         name: "caption",
         title: "Chapeau",
         type: "string",
+      }),
+    defineField({
+        name: "aboutPage",
+        title: "Page 'Qui sommes-nous'",
+        description: "Sélectionnez l'article qui servira de page 'Qui sommes-nous' dans le menu",
+        type: "reference",
+        to: [{ type: "post" }],
       })
   ],
   preview: {

@@ -2,7 +2,14 @@ import { groq } from "next-sanity";
 
 export const settingsQuery = groq`*[_type == "settings"][0]`;
 
-export const headerQuery = groq`*[_type == "header"][0]`;
+export const headerQuery = groq`*[_type == "header"][0]{
+  titre,
+  caption,
+  "aboutPage": aboutPage->{
+    "slug": slug.current,
+    "theme": theme->{"slug": slug.current}
+  }
+}`;
 
 const postFields = /* groq */ `
   _id,

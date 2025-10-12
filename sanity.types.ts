@@ -57,6 +57,22 @@ export type Youtube = {
   title?: string;
 };
 
+export type Header = {
+  _id: string;
+  _type: "header";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  titre?: string;
+  caption?: string;
+  aboutPage?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "post";
+  };
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -237,16 +253,6 @@ export type Slug = {
   _type: "slug";
   current?: string;
   source?: string;
-};
-
-export type Header = {
-  _id: string;
-  _type: "header";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  titre?: string;
-  caption?: string;
 };
 
 export type Settings = {
@@ -546,15 +552,16 @@ export type SettingsQueryResult = {
   };
 } | null;
 // Variable: headerQuery
-// Query: *[_type == "header"][0]
+// Query: *[_type == "header"][0]{  titre,  caption,  "aboutPage": aboutPage->{    "slug": slug.current,    "theme": theme->{"slug": slug.current}  }}
 export type HeaderQueryResult = {
-  _id: string;
-  _type: "header";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  titre?: string;
-  caption?: string;
+  titre: string | null;
+  caption: string | null;
+  aboutPage: {
+    slug: string | null;
+    theme: {
+      slug: string | null;
+    } | null;
+  } | null;
 } | null;
 // Variable: heroQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}

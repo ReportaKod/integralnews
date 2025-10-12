@@ -149,9 +149,11 @@ export default async function RootLayout({
 
     let title = "";
     let caption = "";
+    let aboutPage = null;
     if(header) {
       title = header.titre ? header.titre : "";
       caption = header.caption ? header.caption : "";
+      aboutPage = header.aboutPage;
     }
     
   return (
@@ -174,7 +176,8 @@ export default async function RootLayout({
           locale={locale}
           title={title}
           description={caption}
-          dateTime={formattedDateTime} />
+          dateTime={formattedDateTime}
+          aboutPage={aboutPage} />
         </Suspense>
             {draftMode().isEnabled && <AlertBanner />}
           <div className="fixed top-0 inset-0 -z-5">
