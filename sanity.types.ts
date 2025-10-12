@@ -142,6 +142,19 @@ export type Post = {
     };
     _type: "file";
   };
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    legend?: string;
+    _type: "image";
+  };
   coverImage?: {
     asset?: {
       _ref: string;
@@ -564,7 +577,7 @@ export type HeaderQueryResult = {
   } | null;
 } | null;
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  logo,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type HeroQueryResult = {
   _id: string;
   featured: boolean | null;
@@ -574,6 +587,19 @@ export type HeroQueryResult = {
   caption: string | null;
   audioUrl: string | null;
   excerpt: string | null;
+  logo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    legend?: string;
+    _type: "image";
+  } | null;
   coverImage: {
     asset?: {
       _ref: string;
@@ -684,7 +710,7 @@ export type HeroQueryResult = {
   } | null;
 } | null;
 // Variable: moreStoriesQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  logo,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type MoreStoriesQueryResult = Array<{
   _id: string;
   featured: boolean | null;
@@ -694,6 +720,19 @@ export type MoreStoriesQueryResult = Array<{
   caption: string | null;
   audioUrl: string | null;
   excerpt: string | null;
+  logo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    legend?: string;
+    _type: "image";
+  } | null;
   coverImage: {
     asset?: {
       _ref: string;
@@ -804,7 +843,7 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
 }>;
 // Variable: moreStoriesQueryByCategory
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  logo,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type MoreStoriesQueryByCategoryResult = Array<{
   _id: string;
   featured: boolean | null;
@@ -814,6 +853,19 @@ export type MoreStoriesQueryByCategoryResult = Array<{
   caption: string | null;
   audioUrl: string | null;
   excerpt: string | null;
+  logo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    legend?: string;
+    _type: "image";
+  } | null;
   coverImage: {
     asset?: {
       _ref: string;
@@ -937,7 +989,7 @@ export type AllPostsQueryResult = Array<{
   } | null;
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && slug.current == $slug] [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  excerpt,  logo,  coverImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type PostQueryResult = {
   _id: string;
   featured: boolean | null;
@@ -947,6 +999,19 @@ export type PostQueryResult = {
   caption: string | null;
   audioUrl: string | null;
   excerpt: string | null;
+  logo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    legend?: string;
+    _type: "image";
+  } | null;
   coverImage: {
     asset?: {
       _ref: string;
