@@ -1,5 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { groq, type PortableTextBlock } from "next-sanity";
+import { Image } from "next-sanity/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -97,26 +98,45 @@ export default async function PostPage({ params }: Props) {
   }
 
 
+  // Categories where we don't show the author
+  const categoriesWithoutAuthor = ["credits", "qui-sommes-nous"];
+  const shouldShowAuthor = post.author && !categoriesWithoutAuthor.includes(params.category);
+
   return (
-    <div className={`${params.category} mx-auto px-5 container`}>
+    <div className={`category-article ${params.category} mx-auto px-5 container`}>
       <article className="flex flex-col items-center">
         <h1 className="mb-12 font-bold text-2xl text-balance text-center md:text-4xl leading-tight md:leading-none tracking-tighter">
           {post.title}
         </h1>
-        {post.author && params.category !== "credits" ? (
+        {shouldShowAuthor ? (
         <div className="md:block hidden md:mb-12">
             <Avatar name={post.author.name} picture={post.author.picture} />
-        </div> ): null}
-        {post.coverImage && params.category !== "credits" ?
+        </div>) : null}
+        {/* Display logo if present, otherwise fallback to cover image */}
+        {post.logo && params.category !== "credits" ?
+        (<div className="flex flex-col items-center mx-auto mb-4 w-full max-w-md">
+          <div className="w-full flex items-center justify-center p-2">
+            <Image
+              className="w-auto h-auto max-w-full max-h-[300px] object-contain"
+              width={800}
+              height={800}
+              alt={post.logo.alt || "Logo"}
+              src={urlForImage(post.logo)?.width(800).url() as string}
+              priority
+            />
+          </div>
+          {post.logo.legend ? <p className="mt-4 text-sm text-center text-gray-500">{post.logo.legend}</p> : null}
+        </div>)
+        : post.coverImage && params.category !== "credits" ?
         (<div className="flex flex-col items-center mx-auto 1sm:mx-0 mb-8 md:mb-16 max-w-2xl">
           <CoverImage image={post.coverImage} percentWidth="w-[65%]" priority />
           {post.coverImage.legend ?<p className="my-2 text-sm text-gray-500">{post.coverImage.legend} </p>:null}
         </div>):null}
         <div className={`w-full ${post?.imageFirst || post?.imageSecond ? "max-w-3xl" : "max-w-2xl"}`}>
-          {post.author && (params.category !== "credits") ? (
+          {shouldShowAuthor ? (
           <div className="block md:hidden mb-6">
               <Avatar name={post.author.name} picture={post.author.picture} />
-          </div> ): null}
+          </div>) : null}
           <div className="mb-6 text-lg">
             <div className="mb-4 text-lg flex flex-col gap-2">
               <DateComponent dateString={post.date} />

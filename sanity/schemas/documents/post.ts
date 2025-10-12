@@ -155,6 +155,32 @@ export default defineType({
       },
     }),
     defineField({
+      name: "logo",
+      title: "Logo / Image carrée",
+      description: "Optionnel. Pour afficher un logo ou une image carrée centrée avant l'article (au lieu de la cover image 16:9)",
+      type: "image",
+      options: {
+        hotspot: false, // Disable hotspot for logos - we want them as-is
+        aiAssist: {
+          imageDescriptionField: "alt",
+        },
+      },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Texte alternatif",
+          description: "Décrivez le logo ou l'image.",
+        },
+        {
+          name: "legend",
+          type: "string",
+          title: "Légende",
+          description: "Optionnel. Texte sous le logo."
+        }
+      ],
+    }),
+    defineField({
       name: "coverImage",
       title: "Cover Image",
       type: "image",

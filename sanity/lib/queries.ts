@@ -20,6 +20,7 @@ const postFields = /* groq */ `
   caption,
   "audioUrl": audio.asset->url,
   excerpt,
+  logo,
   coverImage,
   imageFirst,
   imageSecond,
