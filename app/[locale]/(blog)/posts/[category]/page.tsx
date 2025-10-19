@@ -4,6 +4,7 @@ import type { AllPostsQueryResult, MoreStoriesQueryResult } from "@/sanity.types
 import React from "react";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { ArticleV2 } from "@/components/articles/Articles"
+import { getSanityLanguage } from "@/lib/i18n";
 
 type PropsCategoryPage = {
     params: { locale: string, category: string};
@@ -14,16 +15,16 @@ export default async function Page({params }: PropsCategoryPage) {
 
     const locale = params.locale
     const categoryParams = params.category
+    const language = getSanityLanguage(locale);
     
     const posts: AllPostsQueryResult[] = await sanityFetch<AllPostsQueryResult[]>({
-      query: allPostsQuery
+      query: allPostsQuery,
     });
  
     unstable_setRequestLocale(locale);
   
     const data = await sanityFetch<MoreStoriesQueryResult>({
       query: moreStoriesQueryByCategory,
-      params,
     });
   
     return (

@@ -5,6 +5,7 @@
 import { visionTool } from "@sanity/vision";
 import { PluginOptions, defineConfig } from "sanity";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
+import { documentInternationalization } from "@sanity/document-internationalization";
 import {
   type DocumentLocation,
 } from "sanity/presentation";
@@ -877,6 +878,14 @@ export default defineConfig({
     ],
   },
   plugins: [
+    // Document internationalization plugin for multilingual content
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "fr", title: "Français" },
+        { id: "en", title: "English" },
+      ],
+      schemaTypes: ["post", "author"], // Add document types that need translation
+    }),
     // presentationTool({
     //   resolve: {
     //     mainDocuments: defineDocuments([

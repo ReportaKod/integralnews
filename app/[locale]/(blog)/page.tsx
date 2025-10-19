@@ -10,6 +10,7 @@ import Onboarding from "./onboarding";
 import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
+import { getSanityLanguage } from "@/lib/i18n";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 type PropsRootPage = {
@@ -85,12 +86,21 @@ return(
 export default async function Page({params }: PropsRootPage) {
   const locale = params.locale
   unstable_setRequestLocale(locale);
+  const language = getSanityLanguage(locale);
+  
   const [settings, heroPost] = await Promise.all([
     sanityFetch<SettingsQueryResult>({
       query: settingsQuery,
     }),
-    sanityFetch<HeroQueryResult>({ query: heroQuery }),
+    sanityFetch<HeroQueryResult>({ 
+      query: heroQuery,
+    }),
   ]);
+
+  // Debug logging
+  console.log('Language:', language);
+  console.log('Hero Post:', heroPost);
+  console.log('Settings:', settings);
 
   return (
     <div className={`bg-white z-10 relative mx-auto ${heroPost && heroPost.featured ? 'px-5' : 'px-0'} container`}>

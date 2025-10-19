@@ -35,6 +35,7 @@ import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { allPostsQuery, settingsQuery, headerQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { getSanityLanguage } from "@/lib/i18n";
 
 import type { AllPostsQueryResult } from "@/sanity.types";
 
@@ -127,7 +128,7 @@ export default async function RootLayout({
 }) {
 
   const posts: AllPostsQueryResult[] = await sanityFetch<AllPostsQueryResult[]>({
-    query: allPostsQuery
+    query: allPostsQuery,
   });
 
      const messages = await getMessages();
@@ -164,6 +165,7 @@ export default async function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <meta name="apple-mobile-web-app-title" content="Integrales News" />
         <meta name="msapplication-TileColor" content="#2d89ef" />
         <meta name="theme-color" content="#ffffff" />
       </head>

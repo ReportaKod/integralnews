@@ -3,6 +3,7 @@ import { ArticleV3 } from "@components/articles/Articles"
 import type { MoreStoriesQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { moreStoriesQuery } from "@/sanity/lib/queries";
+import { getSanityLanguage } from "@/lib/i18n";
 
 export default async function MoreStories(params: {
   skip: string;
@@ -10,12 +11,18 @@ export default async function MoreStories(params: {
   locale: string;  
 }) {
 
+  const locale = params.locale;
+  const language = getSanityLanguage(locale);
+
   const data = await sanityFetch<MoreStoriesQueryResult>({
     query: moreStoriesQuery,
-    params,
+    params: { skip: params.skip, limit: params.limit },
   });
 
-  const locale = params.locale;
+  // Debug logging
+  console.log('MoreStories - Language:', language);
+  console.log('MoreStories - Params:', { ...params, language });
+  console.log('MoreStories - Data:', data);
 
   return (
     <>

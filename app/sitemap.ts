@@ -2,17 +2,12 @@ import type { MetadataRoute } from 'next'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { allPostsQuery } from '@/sanity/lib/queries'
 import type { AllPostsQueryResult } from '@/sanity.types'
+import { getSanityLanguage } from '@/lib/i18n'
 
 const baseUrl = 'https://djifcommunication.vercel.app'
 const locales = ['fr-TG', 'fr', 'en']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Get all posts from Sanity
-  const posts = await sanityFetch<AllPostsQueryResult>({
-    query: allPostsQuery,
-    stega: false,
-  })
-
   // Static pages for each locale
   const staticPages = [
     '', // Home page
@@ -48,7 +43,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     }
 
-    // Add individual post pages
+    // Get posts for this specific locale
+    const posts = await sanityFetch<AllPostsQueryResult>({
+      query: allPostsQuery,
+      stega: false,
+    })
+
+    // Add individual post pages for this locale
     for (const post of posts) {
       if (post.slug && post.theme?.slug) {
         sitemap.push({

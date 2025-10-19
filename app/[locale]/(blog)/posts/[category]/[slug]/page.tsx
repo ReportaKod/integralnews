@@ -24,6 +24,7 @@ import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery, settingsQuery } from "@/sanity/lib/queries";
 import {resolveOpenGraphImage, urlForImage} from "@/sanity/lib/utils";
+import { getSanityLanguage } from "@/lib/i18n";
 
 // Import the unstable_setRequestLocale function
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -82,11 +83,12 @@ export default async function PostPage({ params }: Props) {
   
   const locale = params.locale || 'fr'; 
   unstable_setRequestLocale(locale);  
+  const language = getSanityLanguage(locale);
 
   const [post, settings] = await Promise.all([
     sanityFetch<any>({
       query: postQuery,
-      params,
+      params: { slug: params.slug },
     }),
     sanityFetch<SettingsQueryResult>({
       query: settingsQuery,
