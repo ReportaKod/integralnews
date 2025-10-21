@@ -6,16 +6,59 @@ import CoverImage from "./cover-image";
 import DateComponent from "./date";
 import MoreStories from "./more-stories";
 import Onboarding from "./onboarding";
+import type { Metadata } from "next";
 
 import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
 import { getSanityLanguage } from "@/lib/i18n";
 import { unstable_setRequestLocale } from "next-intl/server";
+import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { toPlainText } from "next-sanity";
 
 type PropsRootPage = {
   params: { locale: string };
 };
+
+export async function generateMetadata({ params }: PropsRootPage): Promise<Metadata> {
+  const [settings, heroPost] = await Promise.all([
+    sanityFetch<SettingsQueryResult>({
+      query: settingsQuery,
+      stega: false,
+    }),
+    sanityFetch<HeroQueryResult>({ 
+      query: heroQuery,
+      stega: false,
+    }),
+  ]);
+
+  const title = settings?.title || "";
+  const description = settings?.description ? toPlainText(settings.description) : "";
+  
+  // Si il y a un article principal, utiliser sa cover image
+  const ogImage = heroPost?.coverImage 
+    ? resolveOpenGraphImage(heroPost.coverImage)
+    : resolveOpenGraphImage(settings?.ogImage);
+
+  return {
+    title: {
+      template: `%s | ${title}`,
+      default: title,
+    },
+    description: description,
+    openGraph: {
+      type: 'website',
+      locale: 'fr_TG',
+      url: `https://djifcommunication.vercel.app/${params.locale}`,
+      siteName: title,
+      images: ogImage ? [ogImage] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ogImage ? [ogImage.url] : [],
+    },
+  };
+}
 
 const noArticletitle = "Aucun article pour le moment..."
 const noArticleText = "Ordinairement la press ne dors jamais. Mais de temps à autre, le journalisme fait une pause. \

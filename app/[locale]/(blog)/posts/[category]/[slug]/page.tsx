@@ -151,6 +151,7 @@ export default async function PostPage({ params }: Props) {
                     { type: "linkedin" },
                     { type: "whatsapp" },
                     { type: "bluesky" },
+                    { type: "discord" },
                     { type: "email" },
                   ]}
                   title={post.title}

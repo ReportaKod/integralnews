@@ -77,17 +77,8 @@ export async function generateMetadata(): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
-    openGraph: {
-      type: 'website',
-      locale: 'fr_TG',
-      url: 'https://djifcommunication.vercel.app',
-      siteName: title,
-      images: ogImage ? [ogImage] : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      images: ogImage ? [ogImage.url] : [],
-    },
+    // Suppression des métadonnées Open Graph et Twitter du layout principal
+    // pour permettre aux pages individuelles de définir leurs propres images
   };
 }
 
