@@ -43,7 +43,8 @@ _id,
 `;
 
 
-export const heroQuery = groq`*[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {
+// Hero query: Returns featured article if exists, otherwise returns the most recent article
+export const heroQuery = groq`*[_type == "post" && defined(slug.current)] | order(featured desc, date desc, _updatedAt desc) [0] {
   ${postFields}
 }`;
 

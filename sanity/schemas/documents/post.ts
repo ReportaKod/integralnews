@@ -29,7 +29,45 @@ export default defineType({
       title: "Article à la une",
       type: "boolean",
       initialValue: false,
-      description: "Mettre l'article en premier sur la page d'accueil",
+      description: "Mettre l'article en premier sur la page d'accueil. Par défaut, le dernier article publié est affiché à la une. Si vous activez ce switch, cet article sera affiché à la place.",
+      validation: async (rule, context) => {
+        const { getClient } = context;
+        const client = getClient({ apiVersion: '2023-01-01' });
+        const currentDocId = context.document?._id?.replace(/^drafts\./, '');
+        
+        // Si featured est false, pas de validation nécessaire
+        if (!context.document?.featured) {
+          return true;
+        }
+
+        try {
+          // Chercher tous les autres articles avec featured=true (exclure le document actuel)
+          const otherFeaturedPosts = await client.fetch(
+            `*[_type == "post" && featured == true && _id != $currentId && !(_id in path("drafts.**"))]{
+              _id,
+              title
+            }`,
+            { currentId: currentDocId }
+          );
+
+          if (otherFeaturedPosts && otherFeaturedPosts.length > 0) {
+            const titles = otherFeaturedPosts
+              .map((post: any) => post.title || 'Sans titre')
+              .slice(0, 3)
+              .join(', ');
+            const more = otherFeaturedPosts.length > 3 ? ` et ${otherFeaturedPosts.length - 3} autre(s)` : '';
+            
+            return rule.warning(
+              `⚠️ Attention : ${otherFeaturedPosts.length} autre(s) article(s) ${otherFeaturedPosts.length > 1 ? 'ont' : 'a'} déjà le switch "Article à la une" activé : ${titles}${more}. Seul le plus récent sera affiché à la une.`
+            );
+          }
+        } catch (error) {
+          // En cas d'erreur, on ne bloque pas la validation
+          console.error('Erreur lors de la validation featured:', error);
+        }
+
+        return true;
+      },
     }),
     defineField({
       name: 'images',

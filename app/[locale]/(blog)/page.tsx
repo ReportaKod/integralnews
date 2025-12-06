@@ -163,9 +163,10 @@ export default async function Page({params }: PropsRootPage) {
   console.log('Hero Post:', heroPost);
   console.log('Settings:', settings);
 
+  // Always display an article: featured if exists, otherwise the most recent one
   return (
-    <div className={`bg-white z-10 relative mx-auto ${heroPost && heroPost.featured ? 'px-5' : 'px-0'} container`}>
-      {heroPost && heroPost.featured ? (
+    <div className={`bg-white z-10 relative mx-auto ${heroPost ? 'px-5' : 'px-0'} container`}>
+      {heroPost ? (
         <HeroPost
           featured={heroPost.featured}
           title={heroPost.title}
