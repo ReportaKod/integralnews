@@ -147,7 +147,7 @@ return (
       <div className="flex flex-col gap-2">
         <Link href={`/${locale ? locale : "fr"}/posts/${rubrique}/${slug}`} className="block m-0 p-0 group">
           {isSquare ? (
-            <div className="flex items-center justify-center w-full rounded-lg bg-white p-4">
+            <div className="flex items-center justify-center w-full rounded-lg bg-transparent p-4">
               <Image
                 className="w-auto h-auto max-w-full max-h-[300px] object-contain rounded-lg"
                 width={800}
