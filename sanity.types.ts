@@ -610,7 +610,7 @@ export type HeaderQueryResult = {
   } | null;
 } | null;
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(featured desc, date desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && defined(slug.current)] | order(coalesce(featured, false) desc, coalesce(date, _createdAt) desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type HeroQueryResult = {
   _id: string;
   featured: boolean | null;

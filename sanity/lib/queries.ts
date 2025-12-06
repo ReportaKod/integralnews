@@ -44,7 +44,10 @@ _id,
 
 
 // Hero query: Returns featured article if exists, otherwise returns the most recent article
-export const heroQuery = groq`*[_type == "post" && defined(slug.current)] | order(featured desc, date desc, _updatedAt desc) [0] {
+// Priority: featured articles first (sorted by most recent), then non-featured (sorted by most recent)
+// Excludes articles with theme.slug "credits" and "qui-sommes-nous"
+// Featured articles (featured == true) are prioritized and sorted by date, then non-featured articles by date
+export const heroQuery = groq`*[_type == "post" && defined(slug.current) && !(theme->slug.current == "credits") && !(theme->slug.current == "qui-sommes-nous")] | order(featured desc, coalesce(date, _createdAt) desc, _updatedAt desc) [0] {
   ${postFields}
 }`;
 
