@@ -31,6 +31,11 @@ export default defineType({
       initialValue: false,
       description: "Mettre l'article en premier sur la page d'accueil. Par défaut, le dernier article publié est affiché à la une. Si vous activez ce switch, cet article sera affiché à la place.",
       validation: async (rule, context) => {
+        // Si le contexte n'est pas disponible (ex: lors de la génération des types), on retourne true
+        if (!context || !context.getClient) {
+          return true;
+        }
+
         const { getClient } = context;
         const client = getClient({ apiVersion: '2023-01-01' });
         const currentDocId = context.document?._id?.replace(/^drafts\./, '');
