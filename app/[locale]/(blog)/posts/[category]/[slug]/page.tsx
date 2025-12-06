@@ -57,7 +57,8 @@ export async function generateMetadata(
     stega: false,
   });
   const previousImages = (await parent).openGraph?.images || [];
-  const ogImage = resolveOpenGraphImage(post?.coverImage);
+  // Use coverImage for OG image if present, otherwise use logo
+  const ogImage = resolveOpenGraphImage(post?.coverImage || post?.logo);
 
   return {
     authors: post?.author?.name ? [{ name: post?.author?.name }] : [],
@@ -114,8 +115,13 @@ export default async function PostPage({ params }: Props) {
         <div className="md:block hidden md:mb-12">
             <Avatar name={post.author.name} picture={post.author.picture} />
         </div>) : null}
-        {/* Display logo if present, otherwise fallback to cover image */}
-        {post.logo && params.category !== "credits" ?
+        {/* Display cover image if present, otherwise fallback to logo */}
+        {post.coverImage && params.category !== "credits" ?
+        (<div className="flex flex-col items-center mx-auto 1sm:mx-0 mb-8 md:mb-16 max-w-2xl">
+          <CoverImage image={post.coverImage} percentWidth="w-[65%]" priority />
+          {post.coverImage.legend ?<p className="my-2 text-sm text-gray-500">{post.coverImage.legend} </p>:null}
+        </div>)
+        : post.logo && params.category !== "credits" ?
         (<div className="flex flex-col items-center mx-auto mb-4 w-full max-w-md">
           <div className="w-full flex items-center justify-center p-2">
             <Image
@@ -128,11 +134,6 @@ export default async function PostPage({ params }: Props) {
             />
           </div>
           {post.logo.legend ? <p className="mt-4 text-sm text-center text-gray-500">{post.logo.legend}</p> : null}
-        </div>)
-        : post.coverImage && params.category !== "credits" ?
-        (<div className="flex flex-col items-center mx-auto 1sm:mx-0 mb-8 md:mb-16 max-w-2xl">
-          <CoverImage image={post.coverImage} percentWidth="w-[65%]" priority />
-          {post.coverImage.legend ?<p className="my-2 text-sm text-gray-500">{post.coverImage.legend} </p>:null}
         </div>):null}
         <div className={`w-full ${post?.imageFirst || post?.imageSecond ? "max-w-3xl" : "max-w-2xl"}`}>
           {shouldShowAuthor ? (
@@ -156,7 +157,7 @@ export default async function PostPage({ params }: Props) {
                   ]}
                   title={post.title}
                   description={post.excerpt}
-                  media={post.coverImage?.asset?.url}
+                  media={post.coverImage?.asset?.url || post.logo?.asset?.url}
                   variant="icon"
                 />
              

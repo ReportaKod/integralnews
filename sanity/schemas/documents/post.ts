@@ -218,7 +218,6 @@ export default defineType({
           description: "Important pour attribuer l'auteur ou donner une description."
         }
       ],
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "imageFirst",

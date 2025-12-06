@@ -35,7 +35,7 @@ export default async function Page({params }: PropsCategoryPage) {
             const { _id, title, slug, coverImage, excerpt, author, theme } = post;
 
   
-            if (!title ||!slug ||!coverImage) {
+            if (!title ||!slug) {
               return null;
             }
   
