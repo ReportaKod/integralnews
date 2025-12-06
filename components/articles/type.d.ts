@@ -3,7 +3,9 @@ interface ArticleProps {
   locale?: string;
   rubrique: string;
   slug: string;
-  coverImage: string;
+  coverImage: any;
+  logo?: any;
+  useSquareImage?: boolean;
   title: string;
   date: string;
   excerpt?: string;

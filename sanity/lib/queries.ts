@@ -23,6 +23,7 @@ const postFields = /* groq */ `
   excerpt,
   logo,
   coverImage,
+  useSquareImage,
   imageFirst,
   imageSecond,
   "date": coalesce(date, _updatedAt),

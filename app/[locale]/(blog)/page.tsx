@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import Image from "next/image";
+import { Image as SanityImage } from "next-sanity/image";
 import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import DateComponent from "./date";
@@ -13,7 +14,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
 import { getSanityLanguage } from "@/lib/i18n";
 import { unstable_setRequestLocale } from "next-intl/server";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import { toPlainText } from "next-sanity";
 
 type PropsRootPage = {
@@ -70,22 +71,39 @@ function HeroPost({
   slug,
   excerpt,
   coverImage,
+  logo,
+  useSquareImage,
   date,
   locale
 }: Pick<
   Exclude<HeroQueryResult, null>,
-  "title" | "coverImage" | "date" | "excerpt" | "author" | "slug" | "featured"
+  "title" | "coverImage" | "logo" | "useSquareImage" | "date" | "excerpt" | "author" | "slug" | "featured"
 > & {locale:string}) {
 
   const rubrique = "actualite"
 
   const truncatedTitle = title.length > 100 ? `${title.slice(0, 100)}...` : title;
   const truncatedExcerpt = excerpt && excerpt.length > 100 ? `${excerpt.slice(0, 100)}...` : excerpt;
+  const displayImage = useSquareImage && logo ? logo : coverImage;
+  const isSquare = useSquareImage && logo;
 
 return(
   <article className="relative flex flex-col items-center group/hero">
     <div className="block w-full min-w-full cursor-pointer group group/image">
-      <CoverImage image={coverImage} rounded={'rounded-lg'} wrapperClassNames={"w-full"} imgClassNames={"w-full object-cover"} priority />
+      {isSquare ? (
+        <div className="flex items-center justify-center w-full bg-white rounded-lg p-8">
+          <SanityImage
+            className="w-auto h-auto max-w-full max-h-[400px] object-contain"
+            width={1200}
+            height={1200}
+            alt={logo?.alt || "Logo"}
+            src={urlForImage(logo)?.width(1200).url() as string}
+            priority
+          />
+        </div>
+      ) : (
+        <CoverImage image={displayImage} rounded={'rounded-lg'} wrapperClassNames={"w-full"} imgClassNames={"w-full object-cover"} priority />
+      )}
     </div>
     <Link  href={`${locale}/posts/a-la-une/${slug}`} className="absolute top-0 left-0 w-full h-full md:gap-x-5 md:grid md:bg-[rgba(0,0,0,0.3)] 
      mb-8 md:mb-10 p-6 border-none rounded-lg
@@ -153,6 +171,8 @@ export default async function Page({params }: PropsRootPage) {
           title={heroPost.title}
           slug={heroPost.slug}
           coverImage={heroPost.coverImage}
+          logo={heroPost.logo}
+          useSquareImage={heroPost.useSquareImage}
           excerpt={heroPost.excerpt}
           date={heroPost.date}
           author={heroPost.author}

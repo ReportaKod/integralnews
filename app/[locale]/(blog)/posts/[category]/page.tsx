@@ -32,7 +32,7 @@ export default async function Page({params }: PropsCategoryPage) {
         <div className="mx-auto max-w-1xl gap-y-20 md:gap-x-16 md:gap-y-32 
         lg:gap-x-32 flex flex-col mb-32 container">
           {data?.filter(post => post.theme !== null && post.theme.slug === categoryParams).map((post:any) => {
-            const { _id, title, slug, coverImage, excerpt, author, theme } = post;
+            const { _id, title, slug, coverImage, logo, useSquareImage, excerpt, author, theme } = post;
 
   
             if (!title ||!slug) {
@@ -49,6 +49,8 @@ export default async function Page({params }: PropsCategoryPage) {
               rubrique={rubrique}
               slug={slug}
               coverImage={coverImage}
+              logo={logo}
+              useSquareImage={useSquareImage}
               title={title}
               date={post.date}
               excerpt={excerpt}

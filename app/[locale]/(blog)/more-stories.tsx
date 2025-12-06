@@ -28,7 +28,7 @@ export default async function MoreStories(params: {
     <>
       <div className="gap-y-20 md:gap-x-8 md:gap-y-16 lg:gap-x-18 grid grid-cols-1 md:grid-cols-2 mb-32">
         {data?.map((post:any) => {
-          const { _id, title, slug, coverImage, excerpt, author, theme } = post;
+          const { _id, title, slug, coverImage, logo, useSquareImage, excerpt, author, theme } = post;
 
           if (!title ||!slug) {
             return null;
@@ -48,6 +48,8 @@ export default async function MoreStories(params: {
               rubrique={rubrique}
               slug={slug}
               coverImage={coverImage}
+              logo={logo}
+              useSquareImage={useSquareImage}
               title={title}
               date={post.date}
               excerpt={excerpt}

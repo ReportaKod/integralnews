@@ -220,6 +220,13 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "useSquareImage",
+      title: "Format d'image",
+      type: "boolean",
+      initialValue: false,
+      description: "ON (activé) : Affiche le logo carré dans les extraits d'article et dans l'article. OFF (désactivé) : Affiche l'image de couverture 16:9 dans les extraits d'article et dans l'article.",
+    }),
+    defineField({
       name: "imageFirst",
       title: "Première image",
       type: "image",

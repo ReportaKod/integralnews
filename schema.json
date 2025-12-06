@@ -2303,6 +2303,13 @@
         },
         "optional": true
       },
+      "useSquareImage": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "imageFirst": {
         "type": "objectAttribute",
         "value": {

@@ -57,8 +57,10 @@ export async function generateMetadata(
     stega: false,
   });
   const previousImages = (await parent).openGraph?.images || [];
-  // Use coverImage for OG image if present, otherwise use logo
-  const ogImage = resolveOpenGraphImage(post?.coverImage || post?.logo);
+  // Use logo if useSquareImage is enabled, otherwise use coverImage, fallback to logo
+  const ogImage = resolveOpenGraphImage(
+    (post?.useSquareImage && post?.logo) ? post.logo : (post?.coverImage || post?.logo)
+  );
 
   return {
     authors: post?.author?.name ? [{ name: post?.author?.name }] : [],
@@ -115,8 +117,22 @@ export default async function PostPage({ params }: Props) {
         <div className="md:block hidden md:mb-12">
             <Avatar name={post.author.name} picture={post.author.picture} />
         </div>) : null}
-        {/* Display cover image if present, otherwise fallback to logo */}
-        {post.coverImage && params.category !== "credits" ?
+        {/* Display cover image or logo based on useSquareImage switch */}
+        {post.useSquareImage && post.logo && params.category !== "credits" ?
+        (<div className="flex flex-col items-center mx-auto mb-4 w-full max-w-md">
+          <div className="w-full flex items-center justify-center p-2">
+            <Image
+              className="w-auto h-auto max-w-full max-h-[300px] object-contain"
+              width={800}
+              height={800}
+              alt={post.logo.alt || "Logo"}
+              src={urlForImage(post.logo)?.width(800).url() as string}
+              priority
+            />
+          </div>
+          {post.logo.legend ? <p className="mt-4 text-sm text-center text-gray-500">{post.logo.legend}</p> : null}
+        </div>)
+        : post.coverImage && params.category !== "credits" ?
         (<div className="flex flex-col items-center mx-auto 1sm:mx-0 mb-8 md:mb-16 max-w-2xl">
           <CoverImage image={post.coverImage} percentWidth="w-[65%]" priority />
           {post.coverImage.legend ?<p className="my-2 text-sm text-gray-500">{post.coverImage.legend} </p>:null}
