@@ -11,6 +11,8 @@ const SITE_HOSTS = new Set(
     process.env.VERCEL_URL,
     process.env.VERCEL_PROJECT_PRODUCTION_URL,
     process.env.VERCEL_BRANCH_URL,
+    // Extra hosts, comma-separated, e.g. OG_ALLOWED_HOSTS=www.example.com,example.com
+    ...(process.env.OG_ALLOWED_HOSTS?.split(',').map((h) => h.trim()) ?? []),
     ...(process.env.NODE_ENV !== 'production' ? ['localhost:3000'] : []),
   ].filter((h): h is string => Boolean(h))
 )
