@@ -154,7 +154,7 @@ export default async function PostPage(props: Props) {
           </div>
           {post.logo.legend ? <p className="mt-4 text-sm text-center text-gray-500">{post.logo.legend}</p> : null}
         </div>):null}
-        <div className={`w-full ${post?.imageFirst || post?.imageSecond ? "max-w-3xl" : "max-w-2xl"}`}>
+        <div className={`w-full ${post?.imageFirst || post?.imageSecond ? "max-w-3xl lg:max-w-5xl" : "max-w-2xl"}`}>
           {shouldShowAuthor ? (
           <div className="block md:hidden mb-6">
               <Avatar name={post.author.name} picture={post.author.picture} />
@@ -187,8 +187,10 @@ export default async function PostPage(props: Props) {
           </div>
         </div>
         <div className={`${post?.imageFirst || post?.imageSecond ? "" +
-            "max-w-3xl mx-auto w-full flex flex-col-reverse sm:flex-row gay-y-5 sm:gap-x-10 sm:gap-y-2" : "w-full mx-auto max-w-2xl flex flex-col items-center"}`}>
-          <div className="mt-5 sm:mt-0 w-full sm:grow portable-text-enriched">
+            // Below lg: images stacked above the text. From lg: text on the left (takes the remaining
+            // width, ~ same as without images) and a fixed-width image column on the right.
+            "max-w-3xl lg:max-w-5xl mx-auto w-full flex flex-col-reverse gap-y-5 lg:flex-row lg:gap-x-10" : "w-full mx-auto max-w-2xl flex flex-col items-center"}`}>
+          <div className="mt-5 lg:mt-0 w-full min-w-0 lg:flex-1 portable-text-enriched">
             {post?.caption ? <p className="no-drop-cap text-md font-semibold"><em>{post.caption}</em></p> : null}
             <div className={`portable-text-content ${post?.contentGroup?.firstLetterStyle ? 'drop-cap' : ''}`}>
             {/* Contenu stylisable (Portable Text) */}
@@ -203,8 +205,8 @@ export default async function PostPage(props: Props) {
             ): null}
             </div>
           </div>
-          <div className="sm:w-[80%] flex flex-col gap-5">
-            <div className="w-full h-auto flex flex-col">
+          <div className="flex flex-col gap-5 sm:flex-row lg:flex-col lg:w-72 lg:shrink-0">
+            <div className="w-full h-auto flex flex-col empty:hidden">
               {post?.imageFirst ?
                 <div className="w-full">
                   <ImageWrapper rounded="rounded" image={post?.imageFirst} width={1000} height={1000} imgClassNames={"object-cover aspect-square"} priority />
@@ -212,7 +214,7 @@ export default async function PostPage(props: Props) {
                 </div>  
             : null}
             </div>
-            <div className="w-full h-auto flex flex-col">
+            <div className="w-full h-auto flex flex-col empty:hidden">
               {post?.imageSecond ?
                 <div className="w-full">
                   <ImageWrapper rounded="rounded" image={post?.imageSecond} width={1000} height={1000} imgClassNames={"object-cover aspect-square"} priority />
@@ -225,7 +227,7 @@ export default async function PostPage(props: Props) {
 
       {/* 
         {post.images && post.images.length > 0 ?
-      (<div className={`${post?.imageFirst || post?.imageSecond ? "max-w-3xl" : "max-w-2xl"} mx-auto p-0 w-full`}>
+      (<div className={`${post?.imageFirst || post?.imageSecond ? "max-w-3xl lg:max-w-5xl" : "max-w-2xl"} mx-auto p-0 w-full`}>
         <div className={"grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-10"}>
           {post.images?.filter((image: any) => image.asset && image._key).map((image: any) => (
             <div key={image._key} className="h-full">
@@ -248,7 +250,7 @@ export default async function PostPage(props: Props) {
 
 
       {post.images && post.images.length > 0 ?
-      (<div className={`${post?.imageFirst || post?.imageSecond ? "max-w-3xl" : "max-w-2xl"} mx-auto p-0 w-full`}>
+      (<div className={`${post?.imageFirst || post?.imageSecond ? "max-w-3xl lg:max-w-5xl" : "max-w-2xl"} mx-auto p-0 w-full`}>
         <div>
           <Fancybox
               options={{
