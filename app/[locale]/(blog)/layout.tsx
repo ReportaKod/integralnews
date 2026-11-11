@@ -26,7 +26,6 @@ import { Footer } from "@components/layouts/Footer";
 import { CookieBanner } from "@components/cookies/CookieBanner";
 
 import AlertBanner from "./alert-banner";
-import Image from "next/image";
 
 import type { SettingsQueryResult, HeaderQueryResult } from "@/sanity.types";
 import * as demo from "@/sanity/lib/demo";
@@ -161,7 +160,7 @@ export default async function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
 
-      <body className="flex flex-col items-center bg-blue-500 -z-10 mx-0 my-0 overflow-x-hidden">
+      <body className="flex flex-col items-center bg-white mx-0 my-0 overflow-x-hidden">
         <NextIntlClientProvider messages={messages}>
         <Suspense fallback={<p>Chargement...</p>}>
         <Header 
@@ -173,17 +172,6 @@ export default async function RootLayout({
           aboutPage={aboutPage} />
         </Suspense>
             {isDraftMode && <AlertBanner />}
-          <div className="fixed top-0 inset-0 -z-5">
-            <Image
-                src="/backgrounds/hands.jpg"
-                alt="Background Hands"
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
-                className="opacity-50"
-                priority
-            />
-          </div>
             <main className="bg-white pt-[var(--header-size)]  z-10 lg:pt-[350px] w-full max-w-[1200px] min-h-screen">{children}</main>
             <Suspense fallback={<p>Chargement...</p>}>
               <Footer locale={locale} />

@@ -21,8 +21,9 @@ export default function Onboarding({...props}:any) {
       <div className="fixed top-0 h-full inset-0 -z-5">
             <Image
                 src="/backgrounds/hands.jpg"
-                alt="Background Hands"
-                layout="fill"        
+                alt=""
+                fill
+                sizes="100vw"
                 className="opacity-70 object-cover object-center"
                 priority
             />
