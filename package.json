@@ -84,7 +84,12 @@
       "micromatch@<4.0.8": "^4.0.8",
       "fflate@<0.7.5": "^0.7.5",
       "postcss-selector-parser@<6.1.5": "^6.1.5",
-      "uuid@>=10.0.0 <11.1.1": "^11.1.1"
+      "uuid@>=10.0.0 <11.1.1": "^11.1.1",
+      "minimatch@>=3.0.0 <3.1.4": "^3.1.5",
+      "brace-expansion@>=1.0.0 <1.1.20": "^1.1.22",
+      "flatted@<3.4.0": "^3.4.4",
+      "eslint-plugin-react-hooks>zod": "^4.6.7",
+      "zod-validation-error>zod": "^4.6.7"
     }
   }
 }
