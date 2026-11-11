@@ -7,7 +7,9 @@ export const runtime = 'edge'
 // the endpoint can't be used to make the server request arbitrary or internal URLs (SSRF).
 const SITE_HOSTS = new Set(
   [
-    'djifcommunication.vercel.app',
+    'integralnews.vercel.app',
+    'integrales-togo-news.com',
+    'www.integrales-togo-news.com',
     process.env.VERCEL_URL,
     process.env.VERCEL_PROJECT_PRODUCTION_URL,
     process.env.VERCEL_BRANCH_URL,
