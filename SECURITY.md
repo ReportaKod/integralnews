@@ -15,7 +15,7 @@ Utilisez le signalement privé de GitHub :
 
 Merci d'inclure, si possible :
 
-- l'adresse ou la route concernée (par exemple `/api/og`) ;
+- l'adresse ou la route concernée ;
 - les étapes pour reproduire, ou une preuve de concept minimale ;
 - la version ou le commit testé.
 
