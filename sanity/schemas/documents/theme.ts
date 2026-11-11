@@ -1,4 +1,4 @@
-import {StackCompactIcon} from '@sanity/icons'
+import { StackCompactIcon } from "@sanity/icons/StackCompact"
 import { defineField, defineType } from "sanity";
 
 export default defineType({

@@ -12,40 +12,9 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
 // Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
-};
-
-export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
-};
-
-export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
 export type Parameters = {
   _type: "parameters";
   dropcap?: boolean;
@@ -57,6 +26,13 @@ export type Youtube = {
   title?: string;
 };
 
+export type PostReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "post";
+};
+
 export type Header = {
   _id: string;
   _type: "header";
@@ -65,12 +41,14 @@ export type Header = {
   _rev: string;
   titre?: string;
   caption?: string;
-  aboutPage?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "post";
-  };
+  aboutPage?: PostReference;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
 export type Settings = {
@@ -117,18 +95,30 @@ export type Settings = {
     _key: string;
   }>;
   ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     metadataBase?: string;
     _type: "image";
   };
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type SanityAssistInstructionTask = {
@@ -142,17 +132,21 @@ export type SanityAssistInstructionTask = {
 
 export type SanityAssistTaskStatus = {
   _type: "sanity.assist.task.status";
-  tasks?: Array<{
-    _key: string;
-  } & SanityAssistInstructionTask>;
+  tasks?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstructionTask
+  >;
 };
 
 export type SanityAssistSchemaTypeAnnotations = {
   _type: "sanity.assist.schemaType.annotations";
   title?: string;
-  fields?: Array<{
-    _key: string;
-  } & SanityAssistSchemaTypeField>;
+  fields?: Array<
+    {
+      _key: string;
+    } & SanityAssistSchemaTypeField
+  >;
 };
 
 export type SanityAssistOutputType = {
@@ -165,14 +159,16 @@ export type SanityAssistOutputField = {
   path?: string;
 };
 
+export type AssistInstructionContextReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "assist.instruction.context";
+};
+
 export type SanityAssistInstructionContext = {
   _type: "sanity.assist.instruction.context";
-  reference?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "assist.instruction.context";
-  };
+  reference?: AssistInstructionContextReference;
 };
 
 export type AssistInstructionContext = {
@@ -205,18 +201,23 @@ export type SanityAssistInstructionUserInput = {
 };
 
 export type SanityAssistInstructionPrompt = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  } | ({
-    _key: string;
-  } & SanityAssistInstructionFieldRef) | ({
-    _key: string;
-  } & SanityAssistInstructionContext) | ({
-    _key: string;
-  } & SanityAssistInstructionUserInput)>;
+  children?: Array<
+    | {
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & SanityAssistInstructionFieldRef)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionContext)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionUserInput)
+  >;
   style?: "normal";
   listItem?: never;
   markDefs?: null;
@@ -237,19 +238,24 @@ export type SanityAssistInstruction = {
   title?: string;
   userId?: string;
   createdById?: string;
-  output?: Array<({
-    _key: string;
-  } & SanityAssistOutputField) | ({
-    _key: string;
-  } & SanityAssistOutputType)>;
+  output?: Array<
+    | ({
+        _key: string;
+      } & SanityAssistOutputField)
+    | ({
+        _key: string;
+      } & SanityAssistOutputType)
+  >;
 };
 
 export type SanityAssistSchemaTypeField = {
   _type: "sanity.assist.schemaType.field";
   path?: string;
-  instructions?: Array<{
-    _key: string;
-  } & SanityAssistInstruction>;
+  instructions?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstruction
+  >;
 };
 
 export type TranslationMetadata = {
@@ -258,25 +264,41 @@ export type TranslationMetadata = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  translations?: Array<{
-    _key: string;
-  } & InternationalizedArrayReferenceValue>;
+  translations?: InternationalizedArrayReference;
   schemaTypes?: Array<string>;
+};
+
+export type InternationalizedArrayReference = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayReferenceValue
+>;
+
+export type AuthorReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "author";
 };
 
 export type InternationalizedArrayReferenceValue = {
   _type: "internationalizedArrayReferenceValue";
-  value?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "post";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "author";
-  };
+  value?: PostReference | AuthorReference;
+  language?: string;
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type ThemeReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "theme";
 };
 
 export type Post = {
@@ -287,12 +309,8 @@ export type Post = {
   _rev: string;
   featured?: boolean;
   images?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -305,57 +323,50 @@ export type Post = {
   caption?: string;
   contentGroup?: {
     firstLetterStyle?: boolean;
-    richContent?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    } | ({
-      _key: string;
-    } & Youtube) | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-    }>;
+    richContent?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | ({
+          _key: string;
+        } & Youtube)
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }
+    >;
     simpleContent?: string;
   };
   excerpt?: string;
   audio?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
+    asset?: SanityFileAssetReference;
+    media?: unknown;
     _type: "file";
   };
   audioTitle?: string;
   logo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -363,12 +374,8 @@ export type Post = {
     _type: "image";
   };
   coverImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -377,12 +384,8 @@ export type Post = {
   };
   useSquareImage?: boolean;
   imageFirst?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -390,12 +393,8 @@ export type Post = {
     _type: "image";
   };
   imageSecond?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -403,18 +402,8 @@ export type Post = {
     _type: "image";
   };
   date?: string;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "author";
-  };
-  theme?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "theme";
-  };
+  author?: AuthorReference;
+  theme?: ThemeReference;
 };
 
 export type Theme = {
@@ -427,6 +416,12 @@ export type Theme = {
   slug?: Slug;
 };
 
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
 export type Author = {
   _id: string;
   _type: "author";
@@ -435,17 +430,51 @@ export type Author = {
   _rev: string;
   name?: string;
   picture?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
   };
+};
+
+export type SanityImagePaletteSwatch = {
+  _type: "sanity.imagePaletteSwatch";
+  background?: string;
+  foreground?: string;
+  population?: number;
+  title?: string;
+};
+
+export type SanityImagePalette = {
+  _type: "sanity.imagePalette";
+  darkMuted?: SanityImagePaletteSwatch;
+  lightVibrant?: SanityImagePaletteSwatch;
+  darkVibrant?: SanityImagePaletteSwatch;
+  vibrant?: SanityImagePaletteSwatch;
+  dominant?: SanityImagePaletteSwatch;
+  lightMuted?: SanityImagePaletteSwatch;
+  muted?: SanityImagePaletteSwatch;
+};
+
+export type SanityImageDimensions = {
+  _type: "sanity.imageDimensions";
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
+};
+
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  thumbHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
 };
 
 export type SanityFileAsset = {
@@ -470,26 +499,11 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
 };
 
 export type SanityImageAsset = {
@@ -515,29 +529,62 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
-};
+export type AllSanitySchemaTypes =
+  | Parameters
+  | Youtube
+  | PostReference
+  | Header
+  | SanityImageAssetReference
+  | Settings
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityAssistInstructionTask
+  | SanityAssistTaskStatus
+  | SanityAssistSchemaTypeAnnotations
+  | SanityAssistOutputType
+  | SanityAssistOutputField
+  | AssistInstructionContextReference
+  | SanityAssistInstructionContext
+  | AssistInstructionContext
+  | SanityAssistInstructionUserInput
+  | SanityAssistInstructionPrompt
+  | SanityAssistInstructionFieldRef
+  | SanityAssistInstruction
+  | SanityAssistSchemaTypeField
+  | TranslationMetadata
+  | InternationalizedArrayReference
+  | AuthorReference
+  | InternationalizedArrayReferenceValue
+  | SanityFileAssetReference
+  | ThemeReference
+  | Post
+  | Theme
+  | Slug
+  | Author
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
 
-export type InternationalizedArrayReference = Array<{
-  _key: string;
-} & InternationalizedArrayReferenceValue>;
-export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./sanity/lib/queries.ts
+// Source: app/[locale]/(blog)/posts/[category]/[slug]/page.tsx
+// Variable: postSlugs
+// Query: *[_type == "post"]{slug}
+export type PostSlugsResult = Array<{
+  slug: Slug | null;
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]
 export type SettingsQueryResult = {
@@ -584,12 +631,8 @@ export type SettingsQueryResult = {
     _key: string;
   }>;
   ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -597,6 +640,8 @@ export type SettingsQueryResult = {
     _type: "image";
   };
 } | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: headerQuery
 // Query: *[_type == "header"][0]{  titre,  caption,  "aboutPage": aboutPage->{    "slug": slug.current,    "theme": theme->{"slug": slug.current}  }}
 export type HeaderQueryResult = {
@@ -609,8 +654,10 @@ export type HeaderQueryResult = {
     } | null;
   } | null;
 } | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(coalesce(featured, false) desc, coalesce(date, _createdAt) desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
+// Query: *[_type == "post" && defined(slug.current) && !(theme->slug.current == "credits") && !(theme->slug.current == "qui-sommes-nous")] | order(featured desc, coalesce(date, _createdAt) desc, _updatedAt desc) [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type HeroQueryResult = {
   _id: string;
   featured: boolean | null;
@@ -622,12 +669,8 @@ export type HeroQueryResult = {
   audioTitle: string | null;
   excerpt: string | null;
   logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -635,12 +678,8 @@ export type HeroQueryResult = {
     _type: "image";
   } | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -649,12 +688,8 @@ export type HeroQueryResult = {
   } | null;
   useSquareImage: boolean | null;
   imageFirst: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -662,12 +697,8 @@ export type HeroQueryResult = {
     _type: "image";
   } | null;
   imageSecond: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -678,12 +709,8 @@ export type HeroQueryResult = {
   author: {
     name: string | "Anonymous";
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       alt?: string;
@@ -695,12 +722,8 @@ export type HeroQueryResult = {
     slug: string | null;
   } | null;
   images: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -710,40 +733,43 @@ export type HeroQueryResult = {
   }> | null;
   contentGroup: {
     firstLetterStyle?: boolean;
-    richContent?: Array<({
-      _key: string;
-    } & Youtube) | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-    } | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    richContent?: Array<
+      | ({
+          _key: string;
+        } & Youtube)
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }
+    >;
     simpleContent?: string;
   } | null;
 } | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: moreStoriesQuery
 // Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type MoreStoriesQueryResult = Array<{
@@ -757,12 +783,8 @@ export type MoreStoriesQueryResult = Array<{
   audioTitle: string | null;
   excerpt: string | null;
   logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -770,12 +792,8 @@ export type MoreStoriesQueryResult = Array<{
     _type: "image";
   } | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -784,12 +802,8 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
   useSquareImage: boolean | null;
   imageFirst: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -797,12 +811,8 @@ export type MoreStoriesQueryResult = Array<{
     _type: "image";
   } | null;
   imageSecond: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -813,12 +823,8 @@ export type MoreStoriesQueryResult = Array<{
   author: {
     name: string | "Anonymous";
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       alt?: string;
@@ -830,12 +836,8 @@ export type MoreStoriesQueryResult = Array<{
     slug: string | null;
   } | null;
   images: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -845,40 +847,43 @@ export type MoreStoriesQueryResult = Array<{
   }> | null;
   contentGroup: {
     firstLetterStyle?: boolean;
-    richContent?: Array<({
-      _key: string;
-    } & Youtube) | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-    } | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    richContent?: Array<
+      | ({
+          _key: string;
+        } & Youtube)
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }
+    >;
     simpleContent?: string;
   } | null;
 }>;
+
+// Source: sanity/lib/queries.ts
 // Variable: moreStoriesQueryByCategory
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type MoreStoriesQueryByCategoryResult = Array<{
@@ -892,12 +897,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
   audioTitle: string | null;
   excerpt: string | null;
   logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -905,12 +906,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
     _type: "image";
   } | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -919,12 +916,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
   } | null;
   useSquareImage: boolean | null;
   imageFirst: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -932,12 +925,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
     _type: "image";
   } | null;
   imageSecond: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -948,12 +937,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
   author: {
     name: string | "Anonymous";
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       alt?: string;
@@ -965,12 +950,8 @@ export type MoreStoriesQueryByCategoryResult = Array<{
     slug: string | null;
   } | null;
   images: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -980,40 +961,43 @@ export type MoreStoriesQueryByCategoryResult = Array<{
   }> | null;
   contentGroup: {
     firstLetterStyle?: boolean;
-    richContent?: Array<({
-      _key: string;
-    } & Youtube) | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-    } | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    richContent?: Array<
+      | ({
+          _key: string;
+        } & Youtube)
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }
+    >;
     simpleContent?: string;
   } | null;
 }>;
+
+// Source: sanity/lib/queries.ts
 // Variable: allPostsQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {  _id,"status": select(_originalId in path("drafts.**") => "draft", "published"),"title": coalesce(title, ""),"slug": slug.current,"date": coalesce(date, _updatedAt),"theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current}}
 export type AllPostsQueryResult = Array<{
@@ -1027,6 +1011,8 @@ export type AllPostsQueryResult = Array<{
     slug: string | null;
   } | null;
 }>;
+
+// Source: sanity/lib/queries.ts
 // Variable: postQuery
 // Query: *[_type == "post" && slug.current == $slug] [0] {    _id,  featured,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, ""),  "slug": slug.current,  caption,  "audioUrl": audio.asset->url,  audioTitle,  excerpt,  logo,  coverImage,  useSquareImage,  imageFirst,  imageSecond,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},  "images": images[],  contentGroup}
 export type PostQueryResult = {
@@ -1040,12 +1026,8 @@ export type PostQueryResult = {
   audioTitle: string | null;
   excerpt: string | null;
   logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -1053,12 +1035,8 @@ export type PostQueryResult = {
     _type: "image";
   } | null;
   coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -1067,12 +1045,8 @@ export type PostQueryResult = {
   } | null;
   useSquareImage: boolean | null;
   imageFirst: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -1080,12 +1054,8 @@ export type PostQueryResult = {
     _type: "image";
   } | null;
   imageSecond: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -1096,12 +1066,8 @@ export type PostQueryResult = {
   author: {
     name: string | "Anonymous";
     picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
+      asset?: SanityImageAssetReference;
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       alt?: string;
@@ -1113,12 +1079,8 @@ export type PostQueryResult = {
     slug: string | null;
   } | null;
   images: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -1128,43 +1090,53 @@ export type PostQueryResult = {
   }> | null;
   contentGroup: {
     firstLetterStyle?: boolean;
-    richContent?: Array<({
-      _key: string;
-    } & Youtube) | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-    } | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    richContent?: Array<
+      | ({
+          _key: string;
+        } & Youtube)
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }
+    >;
     simpleContent?: string;
   } | null;
 } | null;
-// Source: ./app/[locale]/(blog)/posts/[category]/[slug]/page.tsx
-// Variable: postSlugs
-// Query: *[_type == "post"]{slug}
-export type PostSlugsResult = Array<{
-  slug: Slug | null;
-}>;
+
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    '*[_type == "post"]{slug}': PostSlugsResult;
+    '*[_type == "settings"][0]': SettingsQueryResult;
+    '*[_type == "header"][0]{\n  titre,\n  caption,\n  "aboutPage": aboutPage->{\n    "slug": slug.current,\n    "theme": theme->{"slug": slug.current}\n  }\n}': HeaderQueryResult;
+    '*[_type == "post" && defined(slug.current) && !(theme->slug.current == "credits") && !(theme->slug.current == "qui-sommes-nous")] | order(featured desc, coalesce(date, _createdAt) desc, _updatedAt desc) [0] {\n  \n  _id,\n  featured,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, ""),\n  "slug": slug.current,\n  caption,\n  "audioUrl": audio.asset->url,\n  audioTitle,\n  excerpt,\n  logo,\n  coverImage,\n  useSquareImage,\n  imageFirst,\n  imageSecond,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},\n  "images": images[],\n  contentGroup\n\n}': HeroQueryResult;
+    '*[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n  \n  _id,\n  featured,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, ""),\n  "slug": slug.current,\n  caption,\n  "audioUrl": audio.asset->url,\n  audioTitle,\n  excerpt,\n  logo,\n  coverImage,\n  useSquareImage,\n  imageFirst,\n  imageSecond,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},\n  "images": images[],\n  contentGroup\n\n}': MoreStoriesQueryResult;
+    '*[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n  \n  _id,\n  featured,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, ""),\n  "slug": slug.current,\n  caption,\n  "audioUrl": audio.asset->url,\n  audioTitle,\n  excerpt,\n  logo,\n  coverImage,\n  useSquareImage,\n  imageFirst,\n  imageSecond,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},\n  "images": images[],\n  contentGroup\n\n}': MoreStoriesQueryByCategoryResult;
+    '*[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n  \n_id,\n"status": select(_originalId in path("drafts.**") => "draft", "published"),\n"title": coalesce(title, ""),\n"slug": slug.current,\n"date": coalesce(date, _updatedAt),\n"theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current}\n\n}': AllPostsQueryResult;
+    '*[_type == "post" && slug.current == $slug] [0] {\n  \n  _id,\n  featured,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, ""),\n  "slug": slug.current,\n  caption,\n  "audioUrl": audio.asset->url,\n  audioTitle,\n  excerpt,\n  logo,\n  coverImage,\n  useSquareImage,\n  imageFirst,\n  imageSecond,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n  "theme": theme->{"name": coalesce(name, "Aucune"), "slug": slug.current},\n  "images": images[],\n  contentGroup\n\n}': PostQueryResult;
+  }
+}

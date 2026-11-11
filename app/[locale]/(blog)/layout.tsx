@@ -13,10 +13,8 @@ import { ConditionalSpeedInsights } from "@components/analytics/ConditionalSpeed
 import { ConditionalFontAwesome } from "@components/icons/ConditionalFontAwesome";
 import type { Metadata } from "next";
 
-import {
-  VisualEditing,
-  toPlainText,
-} from "next-sanity";
+import { toPlainText } from "next-sanity";
+import { VisualEditing } from "next-sanity/visual-editing";
 import { Inter, Josefin_Sans, Playfair_Display, Noticia_Text } from "next/font/google";
 import { draftMode } from "next/headers";
 
@@ -112,11 +110,13 @@ const noticia = Noticia_Text({
 
 export default async function RootLayout({
   children,
-  params: {locale}
+  params
 }: {
   children: React.ReactNode;
-  params: {locale: string};
+  params: Promise<{locale: string}>;
 }) {
+  const {locale} = await params;
+  const {isEnabled: isDraftMode} = await draftMode();
 
   const posts: AllPostsQueryResult[] = await sanityFetch<AllPostsQueryResult[]>({
     query: allPostsQuery,
@@ -172,7 +172,7 @@ export default async function RootLayout({
           dateTime={formattedDateTime}
           aboutPage={aboutPage} />
         </Suspense>
-            {draftMode().isEnabled && <AlertBanner />}
+            {isDraftMode && <AlertBanner />}
           <div className="fixed top-0 inset-0 -z-5">
             <Image
                 src="/backgrounds/hands.jpg"
@@ -188,7 +188,7 @@ export default async function RootLayout({
             <Suspense fallback={<p>Chargement...</p>}>
               <Footer locale={locale} />
             </Suspense>
-          {draftMode().isEnabled && <VisualEditing />}
+          {isDraftMode && <VisualEditing />}
           <ConditionalSpeedInsights />
           <ConditionalFontAwesome />
           <CookieBanner locale={locale} />

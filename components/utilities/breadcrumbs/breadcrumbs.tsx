@@ -11,7 +11,7 @@ import { Spinner } from './spinner';
 
 type BreadcrumbsContainerProps = {
   children: ReactNode;
-  separator?: string | ReactNode | ((props:Object) => JSX.Element);
+  separator?: string | ReactNode | ((props:Object) => React.JSX.Element);
 }
 
 type BreadcrumbsProps = {

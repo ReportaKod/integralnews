@@ -26,14 +26,14 @@ import { postQuery, settingsQuery } from "@/sanity/lib/queries";
 import {resolveOpenGraphImage, urlForImage} from "@/sanity/lib/utils";
 import { getSanityLanguage } from "@/lib/i18n";
 
-// Import the unstable_setRequestLocale function
-import { unstable_setRequestLocale } from 'next-intl/server';
+// Import the setRequestLocale function
+import { setRequestLocale } from 'next-intl/server';
 import ImageWrapper from "@components/images/imageWrapper";
 import Fancybox  from "@components/fancybox/FancyBox";
 
 
 type Props = {
-  params: { category: string, slug: string, locale: string };
+  params: Promise<{ category: string, slug: string, locale: string }>;
 };
 
 const postSlugs = groq`*[_type == "post"]{slug}`;
@@ -48,9 +48,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  props: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
+  const params = await props.params;
   const post = await sanityFetch<PostQueryResult>({
     query: postQuery,
     params,
@@ -82,10 +83,11 @@ export async function generateMetadata(
   } satisfies Metadata;
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage(props: Props) {
+  const params = await props.params;
   
   const locale = params.locale || 'fr'; 
-  unstable_setRequestLocale(locale);  
+  setRequestLocale(locale);  
   const language = getSanityLanguage(locale);
 
   const [post, settings] = await Promise.all([

@@ -1,7 +1,7 @@
-import { DocumentTextIcon } from "@sanity/icons";
+import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType, defineArrayMember } from "sanity";
-import {PlayIcon} from '@sanity/icons'
+import { PlayIcon } from "@sanity/icons/Play"
 import authorType from "./author";
 import themeType from "./theme";
 
