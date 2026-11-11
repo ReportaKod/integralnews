@@ -110,8 +110,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       date-fns:
-        specifier: ^3.6.0
-        version: 3.6.0
+        specifier: ^4.4.0
+        version: 4.4.0
       flowbite-react:
         specifier: ^0.10.2
         version: 0.10.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rollup@4.68.2)(tailwindcss@3.4.19)
@@ -3572,9 +3572,6 @@ packages:
 
   dataloader@2.2.3:
     resolution: {integrity: sha512-y2krtASINtPFS1rSDjacrFgn1dcUuoREVabwlOGOe4SdxenREqwjwjElAdwvbGM7kgZz9a3KVicWR7vcz8rnzA==}
-
-  date-fns@3.6.0:
-    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
   date-fns@4.4.0:
     resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
@@ -10527,8 +10524,6 @@ snapshots:
       is-data-view: 1.0.2
 
   dataloader@2.2.3: {}
-
-  date-fns@3.6.0: {}
 
   date-fns@4.4.0: {}
 
