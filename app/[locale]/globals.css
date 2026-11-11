@@ -196,7 +196,7 @@ header {
         border-bottom: 1px solid var(--primary-color);
         border-top: 1px solid var(--primary-color);
         padding: 10px 0 10px 0;
-        margin: 20px 0;
+        margin: 20px 0 6px 0; /* small bottom margin: the rubriques row right below has its own padding */
     }
 }
 
@@ -459,4 +459,34 @@ audio::-webkit-media-controls-volume-slider {
     border-radius: 25px;
     padding-left: 8px;
     padding-right: 8px;
+}
+
+
+/* Rubriques in the header (BBC-like):
+   - hover / focus: light grey background on the link (see Header.tsx)
+   - selected: underline drawn as a background on the label itself (no border,
+     no extra element) so it hugs the word, drawn left to right on arrival. */
+.rubrique-label {
+    display: inline-block;
+    padding: 3px 0; /* symmetric, so the grey hover box has even space above and below the word */
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 0% 3px;
+}
+
+.rubrique-label-active {
+    background-image: linear-gradient(#16a34a, #16a34a);
+    background-size: 100% 3px;
+    animation: rubrique-underline-in 0.35s ease-out both;
+}
+
+@keyframes rubrique-underline-in {
+    from { background-size: 0% 3px; }
+    to { background-size: 100% 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rubrique-label-active {
+        animation: none;
+    }
 }
