@@ -36,7 +36,10 @@ interface DropdownItem {
 export const Header: FC<Props> = ({ posts, title, description, locale, dateTime, aboutPage }) => {
   const t = useTranslations('')
   const paths = usePathname()
-  const [scrolled, setScrolled] = useState<boolean>(true);
+  // false = full header (top of the page), true = compact header (after scrolling)
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const scrolledRef = useRef<boolean>(false);
+  const lastToggleRef = useRef<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownItems: Array<DropdownItem> = [];
   const uniqueLabels = new Set<string>(); 
@@ -66,11 +69,17 @@ export const Header: FC<Props> = ({ posts, title, description, locale, dateTime,
       css: `gap-2 items-center group/rubriques cursor-pointer `}
   ];
 
-  const scrollHeader = () => { 
-    if (window.scrollY >= 20) {
-      setScrolled(true)
-    } else {
-      setScrolled(false)
+  // Two thresholds (hysteresis) so the header doesn't flicker around a single value
+  const COLLAPSE_AT = 80
+  const EXPAND_AT = 20
+
+  const scrollHeader = () => {
+    const y = window.scrollY
+    const next = scrolledRef.current ? y > EXPAND_AT : y >= COLLAPSE_AT
+    if (next !== scrolledRef.current) {
+      scrolledRef.current = next
+      lastToggleRef.current = Date.now()
+      setScrolled(next)
     }
   }
 
@@ -83,7 +92,9 @@ export const Header: FC<Props> = ({ posts, title, description, locale, dateTime,
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollHeader);
+    // Page may be reloaded already scrolled down
+    scrollHeader()
+    window.addEventListener('scroll', scrollHeader, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', scrollHeader);
@@ -115,7 +126,10 @@ export const Header: FC<Props> = ({ posts, title, description, locale, dateTime,
 
   useEffect(() => {
     const updateHeaderSize = () => {
-      if (headerRef.current) {
+      // Only measure the full header, otherwise the content below would jump while
+      // the header collapses (it is position: fixed, the content keeps the full height).
+      const animating = Date.now() - lastToggleRef.current < 500
+      if (headerRef.current && !scrolledRef.current && !animating) {
         const newSize = `${headerRef.current.offsetHeight}px`
         document.documentElement.style.setProperty('--header-size', newSize)
       }
@@ -141,36 +155,54 @@ export const Header: FC<Props> = ({ posts, title, description, locale, dateTime,
  
   return (
         <>
-        <header ref={headerRef} className={`z-20 max-[375px]:mb-5 ${scrolled ? "bg-secondary" : "bg-background"} 
-        bg-white max-w-[1199px] transition duration-400 ease-in top-0 z-max fixed left-1/2 right-1/2 -translate-x-1/2 p-4 w-full`}>
+        <header ref={headerRef} className={`z-20 max-[375px]:mb-5 bg-white max-w-[1199px]
+        transition-[padding] duration-300 ease-in-out
+        top-0 z-max fixed left-1/2 right-1/2 -translate-x-1/2 w-full px-4
+        ${scrolled ? "py-2.5" : "py-4"}`}>
             <h1 className="flex flex-col justify-center items-center news_paper_title">
-              <a href="/" className="text-2xl text-nowrap sm:text-3xl md:text-5xl lg:text-6xl">{title}</a>
+              <a href="/" className={`text-nowrap transition-[font-size] duration-300 ease-in-out ${scrolled
+                ? "text-lg sm:text-xl md:text-2xl !leading-7 !my-1.5"
+                : "text-2xl sm:text-3xl md:text-5xl lg:text-6xl"}`}>{title}</a>
+              {/* Tagline: only on the full header */}
               {description && description.length ?
-                  (<span className="block text-lg italic font-bold">{description}</span>):null}
+                  (<div inert={scrolled} aria-hidden={scrolled} className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${scrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}>
+                    <span className="block min-h-0 overflow-hidden text-lg italic font-bold">{description}</span>
+                  </div>):null}
             </h1>
 
-          <div className="flex justify-center items-center news_paper_location">
-            <div className="flex justify-between items-end gap-5 mx-auto">
-            <span>{dateTime}</span>
+          {/* Date: only on the full header */}
+          <div inert={scrolled} aria-hidden={scrolled} className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${scrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}>
+            <div className="min-h-0 overflow-hidden">
+              <div className="flex justify-center items-center news_paper_location">
+                <div className="flex justify-between items-end gap-5 mx-auto">
+                <span>{dateTime}</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <nav className={`mx-auto max-w-screen
+          {/* Quick links to the first rubriques: always visible, more compact once scrolled */}
+          <nav className={`mx-auto max-w-screen ${scrolled ? "mt-3" : "mt-0"} transition-[margin] duration-300
               shrink hidden sm:flex flex-wrap gap-0 sm:flex-nowrap sm:justify-center 
-            container z-10 sm:gap-4`}>
+            container z-10 sm:gap-1`}>
             {rubriques.map((rubrique, index) => {
               return (
-                <Link href={'/' + rubrique.href} 
-                 
-                 className={`${paths === '/' + rubrique.href ? "bg-green-500 !text-white hover:bg-green-700 hover:!text-white": "bg-white text-black hover:!text-green-400"} ${index < 5 ? 'py-3 px-4 rounded': 'hidden'} `}
+                <Link href={'/' + rubrique.href}
+                 aria-current={paths === '/' + rubrique.href ? 'page' : undefined}
+                 className={`rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700
+                   ${paths === '/' + rubrique.href ? "font-semibold !text-black" : "text-black hover:bg-green-100 focus-visible:bg-green-100"}
+                   ${index < 5 ? (scrolled ? 'py-1 px-2' : 'py-1.5 px-2.5') : 'hidden'} transition-[padding,background-color] duration-300`}
                 key={rubrique.label}>
-                   {rubrique.label}
+                   {/* Underline = background of the label (see globals.css), independent of borders and padding */}
+                   <span className={`rubrique-label ${paths === '/' + rubrique.href ? "rubrique-label-active" : ""}`}>
+                     {rubrique.label}
+                   </span>
                 </Link>
               )
             })}
           </nav>
           
-          <nav className={`mt-2 flex justify-between 
+          <nav className={`${scrolled ? "mt-1" : "mt-2"} transition-[margin] duration-300 flex justify-between 
           items-center gap-4 mx-auto max-w-screen 
             container z-10 bg-black text-white rounded`}>
 
