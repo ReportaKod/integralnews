@@ -1,13 +1,13 @@
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import React from "react";
 
 type PropsReportagesPage = {
-    params: { locale: string };
+    params: Promise<{ locale: string }>;
   };
 
 export default async function Page({params }: PropsReportagesPage) {
-    const locale = params.locale
-    unstable_setRequestLocale(locale);
+    const { locale } = await params;
+    setRequestLocale(locale);
   
     return (
       <div className="mx-auto px-5 container">

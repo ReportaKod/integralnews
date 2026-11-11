@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 import { ConditionalYouTubeEmbed } from '@components/media/ConditionalYouTubeEmbed'
 import ConditionalSocialShare from '@/components/utilities/socials/ConditionalSocialShare'
 import { ConditionalFontAwesome } from '@components/icons/ConditionalFontAwesome'
@@ -74,7 +75,7 @@ export default function TestCookiesPage() {
               { type: "whatsapp" },
               { type: "email" },
             ]}
-            url="https://djifcommunication.vercel.app/test-cookies"
+            url={`${SITE_URL}/test-cookies`}
             title="Test des Cookies"
             description="Page de test pour vérifier la désactivation des cookies"
             variant="icon"

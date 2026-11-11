@@ -18,10 +18,11 @@ type Font = {
 type Fonts = Array<Font>
 
 type PropsRootPage = {
-    params: { locale: string };
+    params: Promise<{ locale: string }>;
   };
 
-function Page({params}: PropsRootPage) {
+async function Page({params}: PropsRootPage) {
+  const { locale } = await params;
   const images: Images = [
     {
       text: "Image de fond journal et café, photo by",
@@ -146,7 +147,7 @@ function Page({params}: PropsRootPage) {
             href="https://nextjs.org/docs/14/app/building-your-application/optimizing/fonts">
                 Cliquez ici pour savoir comment (technique).</Link> 
           </p>
-          {fonts.filter(font => font.locale === params.locale).map(font => {
+          {fonts.filter(font => font.locale === locale).map(font => {
             return (
               <div className="my-3" key={font.link}>
                 <h3 className="mt-4 text-lg">{font.title}</h3>

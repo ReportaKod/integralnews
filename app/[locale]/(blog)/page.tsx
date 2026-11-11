@@ -13,15 +13,17 @@ import type { HeroQueryResult, SettingsQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
 import { getSanityLanguage } from "@/lib/i18n";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import { toPlainText } from "next-sanity";
+import { SITE_URL } from "@/lib/site";
 
 type PropsRootPage = {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export async function generateMetadata({ params }: PropsRootPage): Promise<Metadata> {
+  const { locale } = await params;
   const [settings, heroPost] = await Promise.all([
     sanityFetch<SettingsQueryResult>({
       query: settingsQuery,
@@ -50,7 +52,7 @@ export async function generateMetadata({ params }: PropsRootPage): Promise<Metad
     openGraph: {
       type: 'website',
       locale: 'fr_TG',
-      url: `https://djifcommunication.vercel.app/${params.locale}`,
+      url: `${SITE_URL}/${locale}`,
       siteName: title,
       images: ogImage ? [ogImage] : [],
     },
@@ -145,8 +147,8 @@ return(
 }
 
 export default async function Page({params }: PropsRootPage) {
-  const locale = params.locale
-  unstable_setRequestLocale(locale);
+  const { locale } = await params;
+  setRequestLocale(locale);
   const language = getSanityLanguage(locale);
   
   const [settings, heroPost] = await Promise.all([

@@ -8,13 +8,14 @@ const inter = Inter({
 
 export { metadata, viewport } from "next-sanity/studio";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params: {locale}
+  params
 }: {
   children: React.ReactNode;
-  params: {locale: string};
+  params: Promise<{locale: string}>;
 }) {
+  const {locale} = await params;
   return (
     <html lang={locale} className={inter.variable}>
       <body className="min-h-screen">{children}</body>

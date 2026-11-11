@@ -25,11 +25,14 @@ export const formats = {
 } satisfies Formats;
  
  
-export default getRequestConfig(async ({locale}) => {
+export default getRequestConfig(async ({requestLocale}) => {
+  const requested = await requestLocale;
   // Validate that the incoming `locale` parameter is valid
-  if (!routing.locales.includes(locale as any)) notFound();
+  if (!requested || !routing.locales.includes(requested as any)) notFound();
+  const locale = requested;
  
   return {
+    locale,
     formats,
     messages: (await import(`../messages/${locale}.json`)).default,
     timeZone: 'Africa/Lome'

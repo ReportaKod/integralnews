@@ -3,8 +3,9 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { allPostsQuery } from '@/sanity/lib/queries'
 import type { AllPostsQueryResult } from '@/sanity.types'
 import { getSanityLanguage } from '@/lib/i18n'
+import { SITE_URL } from '@/lib/site'
 
-const baseUrl = 'https://djifcommunication.vercel.app'
+const baseUrl = SITE_URL
 const locales = ['fr-TG', 'fr', 'en']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

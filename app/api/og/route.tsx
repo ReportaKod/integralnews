@@ -3,6 +3,36 @@ import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
+// Hosts the route is allowed to fetch pages from. Anything else is rejected so
+// the endpoint can't be used to make the server request arbitrary or internal URLs (SSRF).
+const SITE_HOSTS = new Set(
+  [
+    'integralnews.vercel.app',
+    'integrales-togo-news.com',
+    'www.integrales-togo-news.com',
+    process.env.VERCEL_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_BRANCH_URL,
+    // Extra hosts, comma-separated, e.g. OG_ALLOWED_HOSTS=www.example.com,example.com
+    ...(process.env.OG_ALLOWED_HOSTS?.split(',').map((h) => h.trim()) ?? []),
+    ...(process.env.NODE_ENV !== 'production' ? ['localhost:3000'] : []),
+  ].filter((h): h is string => Boolean(h))
+)
+
+// Additional hosts allowed for the Open Graph image only
+const IMAGE_HOSTS = new Set([...SITE_HOSTS, 'cdn.sanity.io'])
+
+function isAllowedUrl(value: string | null, hosts: Set<string>): value is string {
+  if (!value) return false
+  try {
+    const u = new URL(value)
+    const isLocal = u.hostname === 'localhost' && process.env.NODE_ENV !== 'production'
+    return (u.protocol === 'https:' || (isLocal && u.protocol === 'http:')) && hosts.has(u.host)
+  } catch {
+    return false
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -17,14 +47,22 @@ export async function GET(request: NextRequest) {
       return new Response('URL manquante', { status: 400 })
     }
 
-    // Récupérer les métadonnées de l'URL
-    const response = await fetch(url)
-    const html = await response.text()
+    if (!isAllowedUrl(url, SITE_HOSTS)) {
+      return new Response('URL non autorisée', { status: 400 })
+    }
+
+    // Récupérer les métadonnées de l'URL (pas de redirection, délai limité, taille limitée)
+    const response = await fetch(url, {
+      redirect: 'error',
+      signal: AbortSignal.timeout(5000),
+    })
+    const html = (await response.text()).slice(0, 500_000)
     
     // Extraire les métadonnées Open Graph
     const ogTitle = extractMeta(html, 'property="og:title"') || title || 'Article'
     const ogDescription = extractMeta(html, 'property="og:description"') || description || ''
-    const ogImage = extractMeta(html, 'property="og:image"') || image || ''
+    const candidateImage = extractMeta(html, 'property="og:image"') || image
+    const ogImage = isAllowedUrl(candidateImage ?? null, IMAGE_HOSTS) ? candidateImage : ''
 
     // Générer l'image Open Graph avec @vercel/og
     return new ImageResponse(

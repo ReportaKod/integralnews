@@ -1,4 +1,4 @@
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { allPostsQuery, moreStoriesQuery, moreStoriesQueryByCategory } from "@/sanity/lib/queries";
 import type { AllPostsQueryResult, MoreStoriesQueryResult } from "@/sanity.types";
 import React from "react";
@@ -7,21 +7,20 @@ import { ArticleV2 } from "@/components/articles/Articles"
 import { getSanityLanguage } from "@/lib/i18n";
 
 type PropsCategoryPage = {
-    params: { locale: string, category: string};
+    params: Promise<{ locale: string, category: string}>;
   };
 
 
 export default async function Page({params }: PropsCategoryPage) {
 
-    const locale = params.locale
-    const categoryParams = params.category
+    const { locale, category: categoryParams } = await params;
     const language = getSanityLanguage(locale);
     
     const posts: AllPostsQueryResult[] = await sanityFetch<AllPostsQueryResult[]>({
       query: allPostsQuery,
     });
  
-    unstable_setRequestLocale(locale);
+    setRequestLocale(locale);
   
     const data = await sanityFetch<MoreStoriesQueryResult>({
       query: moreStoriesQueryByCategory,

@@ -1,13 +1,13 @@
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 
 type PropsLegalPage = {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default async function Page({params }: PropsLegalPage) {
-    const locale = params.locale
-    unstable_setRequestLocale(locale);
+    const { locale } = await params;
+    setRequestLocale(locale);
    
     return (
       <div className="mx-auto px-5 container">
