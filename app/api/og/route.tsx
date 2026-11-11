@@ -1,7 +1,9 @@
-import { ImageResponse } from '@vercel/og'
+import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 
-export const runtime = 'edge'
+// Node.js runtime on purpose: the Edge bundle (satori + resvg + font) is over the
+// 1 MB Edge Function limit of the Hobby plan.
+export const runtime = 'nodejs'
 
 // Hosts the route is allowed to fetch pages from. Anything else is rejected so
 // the endpoint can't be used to make the server request arbitrary or internal URLs (SSRF).
