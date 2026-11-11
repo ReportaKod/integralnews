@@ -6,6 +6,13 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    ignore:
+      # 0.x package: minor bumps can be breaking. 0.12 removed "flowbite-react/tailwind",
+      # which tailwind.config.ts imports. Only patch updates are proposed until we migrate.
+      - dependency-name: "flowbite-react"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-major"
     groups:
       # Minor and patch bumps in one PR to limit noise
       minor-and-patch:
