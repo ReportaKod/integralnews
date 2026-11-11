@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      # Minor and patch bumps in one PR to limit noise
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+      # These move together and must stay version-compatible
+      next-react:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "eslint-config-next"
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      sanity:
+        patterns:
+          - "sanity"
+          - "next-sanity"
+          - "@sanity/*"
+          - "sanity-plugin-*"
