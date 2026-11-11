@@ -10,9 +10,6 @@ const nextConfig = {
   logging: {
     fetches: { fullUrl: false },
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     remotePatterns: [
       {
