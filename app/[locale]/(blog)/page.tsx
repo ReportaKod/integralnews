@@ -16,6 +16,7 @@ import { getSanityLanguage } from "@/lib/i18n";
 import { setRequestLocale } from "next-intl/server";
 import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import { toPlainText } from "next-sanity";
+import { SITE_URL } from "@/lib/site";
 
 type PropsRootPage = {
   params: Promise<{ locale: string }>;
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }: PropsRootPage): Promise<Metad
     openGraph: {
       type: 'website',
       locale: 'fr_TG',
-      url: `https://djifcommunication.vercel.app/${locale}`,
+      url: `${SITE_URL}/${locale}`,
       siteName: title,
       images: ogImage ? [ogImage] : [],
     },

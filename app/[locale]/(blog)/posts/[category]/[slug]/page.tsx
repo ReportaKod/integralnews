@@ -30,6 +30,7 @@ import { getSanityLanguage } from "@/lib/i18n";
 import { setRequestLocale } from 'next-intl/server';
 import ImageWrapper from "@components/images/imageWrapper";
 import Fancybox  from "@components/fancybox/FancyBox";
+import { SITE_URL } from "@/lib/site";
 
 
 type Props = {
@@ -70,7 +71,7 @@ export async function generateMetadata(
     openGraph: {
       type: 'article',
       locale: 'fr_TG',
-      url: `https://djifcommunication.vercel.app/${params.locale}/posts/${params.category}/${params.slug}`,
+      url: `${SITE_URL}/${params.locale}/posts/${params.category}/${params.slug}`,
       siteName: 'Intégrales News',
       publishedTime: post?.date,
       authors: post?.author?.name ? [post.author.name] : [],
