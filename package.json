@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
-    "@fancyapps/ui": "^5.0.36",
+    "@fancyapps/ui": "^6.1.15",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
     "@fortawesome/free-regular-svg-icons": "^7.1.0",

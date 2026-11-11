@@ -27,8 +27,8 @@ importers:
         specifier: ^3.5.7
         version: 3.5.7(jquery@3.7.1)
       '@fancyapps/ui':
-        specifier: ^5.0.36
-        version: 5.0.36
+        specifier: ^6.1.15
+        version: 6.1.15
       '@fortawesome/fontawesome-svg-core':
         specifier: ^7.1.0
         version: 7.1.0
@@ -1209,8 +1209,8 @@ packages:
     peerDependencies:
       jquery: '>=1.9.0'
 
-  '@fancyapps/ui@5.0.36':
-    resolution: {integrity: sha512-GMygQzp1MBTFNTT6AzpbL6pXTD6bTxwjmmpI1fe8Ozmmiseu8/g82Sudl1YhcbZmS4bJgaBOF5THDFGpXQ1fDw==}
+  '@fancyapps/ui@6.1.15':
+    resolution: {integrity: sha512-J1w/ZLhkXzMSHZ7Bg1iX7GFA/YkH/Ka+r2HIX4pchwu6PNalfyzzgxghhP92CWlbH4ssV8qYPJ/KQcdRW5TVVw==}
 
   '@floating-ui/core@1.6.6':
     resolution: {integrity: sha512-Vkvsw6EcpMHjvZZdMkSY+djMGFbt7CRssW99Ne8tar2WLnZ/l3dbxeTShbLQj+/s35h+Qb4cmnob+EzwtjrXGQ==}
@@ -7825,7 +7825,7 @@ snapshots:
     dependencies:
       jquery: 3.7.1
 
-  '@fancyapps/ui@5.0.36': {}
+  '@fancyapps/ui@6.1.15': {}
 
   '@floating-ui/core@1.6.6':
     dependencies:
